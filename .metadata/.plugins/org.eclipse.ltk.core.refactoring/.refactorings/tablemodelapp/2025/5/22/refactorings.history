@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;MyModel.java&apos; to &apos;table.MyModel.java&apos;&#x0D;&#x0A;- Original project: &apos;tablemodelapp&apos;&#x0D;&#x0A;- Destination element: &apos;table.MyModel.java&apos;&#x0D;&#x0A;- Original element: &apos;table.MyModel.java&apos;" description="Copy compilation unit" destination="/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;table{MyModel.java" element1="/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;table{MyModel.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1748309514319" units="1" version="1.0"/>
+</session>
