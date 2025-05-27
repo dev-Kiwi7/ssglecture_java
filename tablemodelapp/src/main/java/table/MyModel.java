@@ -12,7 +12,7 @@ import javax.swing.table.AbstractTableModel;
 public class MyModel extends AbstractTableModel{
 	
 	//회원정보 (층,호 를 표현하기 위한 이차원 배열 형태의 데이터가 필요)
-	String[][] rows=new String[100][3];
+	String[][] rows=new String[0][3];
 	String[] columns= {"ID","Name","Tel"};
 	
 	//테이블에 보여질 총 레코드 수 
@@ -24,7 +24,14 @@ public class MyModel extends AbstractTableModel{
 	public int getColumnCount() {
 		return columns.length;
 	}
-
+		
+	//컬럼의 이름 반환해주는 메서드 
+	//아래의 메서드는 컬럼 수만큼 반복하면서 호출되는데, 이때 매개변수로 넘겨받는 col의 값은 자동 증가하면서
+	//전달되어 진다... 
+	public String getColumnName(int col) {
+		return columns[col];
+	}
+	
 	//getValueAt() 메서드는 getRowCount() X getColumnCount() 수만큼 호출하면서
 	//표를 이루는 각 셀(행,열)의 좌표마다 어떠한 값을 넣을지 return 이 결정한다
 	public Object getValueAt(int row, int col) {
@@ -32,9 +39,11 @@ public class MyModel extends AbstractTableModel{
 		return rows[row][col];
 	}
 	
-	
-	
-	
+	@Override
+	public boolean isCellEditable(int row, int col) {
+		System.out.println(row+"행 ,"+col+"열은 수정가능합니다");
+		return true;
+	}
 	
 }
 
