@@ -1,0 +1,28 @@
+package table;
+
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
+public class MemberRegist {
+	//서쪽 영역 
+	JPanel p_west;
+	JTextField t_id;
+	JTextField t_name;
+	JTextField t_phone;
+	JButton bt;
+	
+	//센터영역
+	JPanel p_center;
+	JTextArea area;
+	JScrollPane scroll;
+	
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}
