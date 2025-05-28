@@ -72,7 +72,7 @@ public class MemberRegist extends JFrame implements ActionListener, WindowListen
 		//생성자에 이차원배열을 대입 방식은 불편...생성하는 시점부터 언제나 데이터가 있어야하는 전제조건이
 		//생성자의 인수에 이 테이블에 보여줘야할 데이터 또는 데이터처리 객체
 		//JTable은 MVC패턴을 어느 정보 반영한 컴포넌트이다..(완벽하지 않음 모델+컨트롤러)
-		table = new JTable(model =new MyModel()); //JTable은 껍데기에 지나지 않기 때문에, 실제 보여질 데이터는
+		table = new JTable(model =new MyModel(this)); //JTable은 껍데기에 지나지 않기 때문에, 실제 보여질 데이터는
 														//모델이 결정한다!!!
 		scroll = new JScrollPane(table);
 		
@@ -351,7 +351,30 @@ public class MemberRegist extends JFrame implements ActionListener, WindowListen
 		String sql="update member4  set id='"+record[0]+"' , name='"+record[1]+"', tel='"+record[2]+"' ";
 		sql+=" where  member4_id="+record[3];
 		
-		System.out.println(sql);
+		//System.out.println(sql);
+		
+		PreparedStatement pstmt=null;
+		try {
+			pstmt=con.prepareStatement(sql);
+			int result=pstmt.executeUpdate(); //update DML 수행
+			
+			if(result>0) {
+				JOptionPane.showMessageDialog(this, "수정 성공");
+				selectAll(); //MyModel의 이차원배열 갱신 및 테이블 updateUI() 포함
+			}else {
+				JOptionPane.showMessageDialog(this, "변경 사항이 반영되지 않았습니다");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 	
 	
@@ -363,12 +386,16 @@ public class MemberRegist extends JFrame implements ActionListener, WindowListen
 		}else if(obj==bt_edit) {//수정이라면..
 			int result = JOptionPane.showConfirmDialog(this, "수정하시겠어요?");
 			if(result == JOptionPane.OK_OPTION) {
+				//edit() 메서드호출 전에, 배열을 우리가 입력한 데이터를 반영하여 조작을 가하자!!
+				member[1]=t_name2.getText();
+				member[2]=t_tel2.getText();
+						
 				edit(member);//이미 멤버변수로 선언된 회원한 사람 정보를 담는 배열을 전달하자
 			}			
 		}else if(obj==bt_del) {//삭제라면..
 			int result = JOptionPane.showConfirmDialog(this, "삭제하시겠어요?");
 			if(result == JOptionPane.OK_OPTION) {
-				delete(member4_id); //pk를 넘겨줘야 함
+				delete(member4_id); //pk를 넘겨줘야 함				
 			}
 		}
 	}

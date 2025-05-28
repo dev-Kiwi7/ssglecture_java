@@ -9,7 +9,6 @@ INDEX VERSION 1.134+C:\lecture_workspace\backend\java_workspace\.metadata\.plugi
 3158648900.index
 1374356858.index
 3396183988.index
-1930479519.index
 1865797976.index
 169108664.index
 2717197137.index
