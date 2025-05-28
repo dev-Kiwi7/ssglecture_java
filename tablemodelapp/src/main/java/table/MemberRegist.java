@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -66,7 +67,14 @@ public class MemberRegist extends JFrame implements ActionListener, WindowListen
 		t_id = new JTextField();
 		t_name=new JTextField();
 		t_tel = new JTextField();
+		
+		//애플리케이션의 퀄리티를 높이기위해 이미지 적용해보기 
+		//단, 이미지 경로는 플랫폼에 의존적인 경로 말고, 중립적인 클래스패스를 기준으로 가져오자 
+		Class myClass=this.getClass();
+		URL url=myClass.getClassLoader().getSystemResource("write.png");
+		
 		bt = new JButton("가입");
+		
 		
 		p_center = new JPanel();
 		//생성자에 이차원배열을 대입 방식은 불편...생성하는 시점부터 언제나 데이터가 있어야하는 전제조건이
