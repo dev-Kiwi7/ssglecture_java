@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.sql.Connection;
@@ -23,7 +25,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.TableModel;
 
-public class MemberRegist extends JFrame implements ActionListener, WindowListener{
+public class MemberRegist extends JFrame implements ActionListener, WindowListener, MouseListener{
 	//서쪽 영역 
 	JPanel p_west;
 	JTextField t_id;
@@ -130,6 +132,7 @@ public class MemberRegist extends JFrame implements ActionListener, WindowListen
 		
 		
 		bt.addActionListener(this); //버튼과 리스너 연결 
+		table.addMouseListener(this); //테이블과 리스너 연결 
 		
 		//윈도우창과 리스너와의 연결 
 		this.addWindowListener(this);
@@ -200,7 +203,7 @@ public class MemberRegist extends JFrame implements ActionListener, WindowListen
 		
 	}
 	
-	//데이터 가져오기 
+	//모든 회원 데이터 가져오기 
 	public void selectAll() {
 		String sql="select * from member4";
 		PreparedStatement pstmt=null; //finally에서 닫으려고 한줄로 처리 안함..
@@ -218,7 +221,7 @@ public class MemberRegist extends JFrame implements ActionListener, WindowListen
 			
 			//rs 자체는 MyModel이 보유하고 있는 2차원 배열자체가 아니므로, rs의 데이터를 2차원 배열로 
 			//변환하여 MyModel이 보유한 배열대신 사용해야 함..즉 대체 
-			((MyModel)model).rows = new String[total][3];
+			((MyModel)model).rows = new String[total][4];
 			
 			//마지막 위치로 보냈던, rs의 커서를 다시 처음으로 복귀시킨다..레코드를 처음부터 차례대로 접근하기 위함
 			rs.beforeFirst();//이 커서의 자유로움,  pstmt 생성시, 부여한 상수 옵션때문이다..
@@ -228,7 +231,7 @@ public class MemberRegist extends JFrame implements ActionListener, WindowListen
 			
 			while(rs.next()){
 				String[] record = {
-						rs.getString("id"),rs.getString("name"), rs.getString("tel") 		
+						rs.getString("id"),rs.getString("name"), rs.getString("tel") , rs.getString("member4_id")		
 				};
 				((MyModel)model).rows[index++]=record; 
 			}
@@ -252,9 +255,33 @@ public class MemberRegist extends JFrame implements ActionListener, WindowListen
 				}
 			}
 		}
+	}
+	
+	//선택된 회원만 가져오기 
+	public void select(int member4_id) {
+		//System.out.println("사원 선택했어?");
+		String sql="select * from member4 where member4_id="+0;
+		System.out.println(sql);
 		
+		//쿼리문이 검증되었으므로, JDBC 통해 네트웍으로 전송하자 
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		
+		try {
+			pstmt=con.prepareStatement(sql); //쿼리문 객체 생성 
+			rs=pstmt.executeQuery(); //레코드 결과 반환 
+			
+			//화면에 출력
+			if(rs.next()) { //레코드가 있다면..아래의 코드 수행 즉 회원이 있을때만...
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
 	}
+	
 	
 	public void actionPerformed(ActionEvent e) {
 		regist();
@@ -308,6 +335,50 @@ public class MemberRegist extends JFrame implements ActionListener, WindowListen
 	@Override
 	public void windowDeactivated(WindowEvent e) {
 		System.out.println("windowDeactivated()");		
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		//테이블을 마우스로 클릭 시,JTable의 메서드 중 유저가 선택한  row와 col 정보를 반환하는 메서드 
+		
+		int row = table.getSelectedRow();//유저가 선택한 층(row)
+		int col = table.getSelectedColumn();//유저가 선택한 호(col)
+		
+		String[][] rows=((MyModel)model).rows;
+		
+		//방법1) 추천함 왜? 숨겨진 데이터도 접근 가능하므로..
+		//System.out.println("선택한 레코드의 이름은 "+rows[row][1]);
+		System.out.println("선택한 레코드의 pk는 "+rows[row][3]);
+		
+		//방법2) JTable 자체에 자신의 셀의 정보 반환 
+		//String value=(String)table.getValueAt(row, col);
+		//System.out.println(value);
+		
+		select(Integer.parseInt(rows[row][3]));//pk 전달
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

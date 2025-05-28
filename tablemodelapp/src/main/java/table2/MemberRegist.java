@@ -275,9 +275,6 @@ public class MemberRegist extends JFrame implements ActionListener, WindowListen
 	public void mouseReleased(MouseEvent e) {
 		String member4_id=((MyModel)model).rows[table.getSelectedRow()][3];
 		System.out.println("선택한 레코드의 pk는 "+member4_id);
-		
-		
-		
 	}
 
 	@Override
