@@ -42,7 +42,15 @@ public class MyModel extends AbstractTableModel{
 	@Override
 	public boolean isCellEditable(int row, int col) {
 		System.out.println(row+"행 ,"+col+"열은 수정가능합니다");
-		return true;
+		//boolean flag=;
+		return (col==0)? false : true;
+		/*
+		if(col==0) {
+			return false;
+		}else {
+			return true;
+		} 
+		*/
 	}
 	
 }

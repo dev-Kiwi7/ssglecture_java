@@ -3,3 +3,4 @@ org.eclipse.jdt.core.codeComplete.visibilityCheck=enabled
 org.eclipse.jdt.core.compiler.codegen.targetPlatform=21
 org.eclipse.jdt.core.compiler.release=enabled
 org.eclipse.jdt.core.compiler.source=21
+org.eclipse.jdt.core.userLibrary.lib=<?xml version\="1.0" encoding\="UTF-8"?>\r\n<userlibrary systemlibrary\="false" version\="2">\r\n\t<archive path\="/tablemodelapp/lib/mysql-connector-j-8.0.33.jar"/>\r\n</userlibrary>\r\n

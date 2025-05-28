@@ -15,6 +15,7 @@ import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -34,6 +35,17 @@ public class MemberRegist extends JFrame implements ActionListener, WindowListen
 	JPanel p_center;
 	JTable table;
 	JScrollPane scroll;
+	
+	JPanel p_south; //남쪽에 정보 패널 추가!!
+	JLabel la_id;
+	JLabel la_value;
+	JLabel la_name;
+	JLabel la_tel;
+	JTextField t_name2;
+	JTextField t_tel2;
+	JButton bt_edit;
+	JButton bt_del;
+	
 	
 	TableModel model;
 	int index=0; //몇번째 층에 회원을 넣을지 결정짓는 인덱스
@@ -56,6 +68,19 @@ public class MemberRegist extends JFrame implements ActionListener, WindowListen
 														//모델이 결정한다!!!
 		scroll = new JScrollPane(table);
 		
+		//새로 추가된 센터 영역 컴포넌트 
+		p_south = new JPanel();
+		la_id = new JLabel("ID");
+		la_name = new JLabel("Name");
+		la_tel = new JLabel("Tel");
+		la_value=new JLabel("");
+		
+		t_name2 = new JTextField();
+		t_tel2 = new JTextField();
+		bt_edit = new JButton("수정");
+		bt_del = new JButton("삭제");
+		
+		
 		//style 적용 
 		p_west.setBackground(Color.ORANGE);
 		p_west.setPreferredSize(new Dimension(150, 500));
@@ -65,7 +90,22 @@ public class MemberRegist extends JFrame implements ActionListener, WindowListen
 		t_name.setPreferredSize(d);
 		t_tel.setPreferredSize(d);
 		
-		scroll.setPreferredSize(new Dimension(435, 490));
+		scroll.setPreferredSize(new Dimension(435, 350));
+		
+		//새로운 컴포넌트에 대한 스타일 
+		p_south.setPreferredSize(new Dimension(450, 145));
+		p_south.setBackground(Color.YELLOW);
+		
+		Dimension d2 = new Dimension(200, 30);		
+		la_id.setPreferredSize(d2);
+		la_name.setPreferredSize(d2);
+		la_tel.setPreferredSize(d2);
+		
+		Dimension d3 = new Dimension(370, 30);
+		la_value.setPreferredSize(d3);
+		t_name2.setPreferredSize(d3);
+		t_tel2.setPreferredSize(d3);
+		
 		
 		//조립 
 		p_west.add(t_id);
@@ -76,6 +116,18 @@ public class MemberRegist extends JFrame implements ActionListener, WindowListen
 	
 		p_center.add(scroll);
 		add(p_center);
+		add(p_south, BorderLayout.SOUTH);
+		
+		//남쪽 패널에 부착 
+		p_south.add(la_id);
+		p_south.add(la_value);
+		p_south.add(la_name);
+		p_south.add(t_name2);
+		p_south.add(la_tel);
+		p_south.add(t_tel2);
+		p_south.add(bt_edit);
+		p_south.add(bt_del);
+		
 		
 		bt.addActionListener(this); //버튼과 리스너 연결 
 		
@@ -160,7 +212,6 @@ public class MemberRegist extends JFrame implements ActionListener, WindowListen
 			//select문이므로 executeQuery()호출 
 			rs=pstmt.executeQuery(); //select문일 경우 쿼리수행 시,표가 반환되므로 해당 표를 제어할 
 												//ResultSet 객체가 반환됨
-			
 			rs.last();//레코드의 마지막으로 포인터를 보낸다... 
 			int total = rs.getRow(); //현재 위치 어디인지 묻는다 
 			System.out.println("현재 까지 가입한 총 수는 "+total);
@@ -222,6 +273,16 @@ public class MemberRegist extends JFrame implements ActionListener, WindowListen
 	//해제하는 용도로써 적합하다!!
 	public void windowClosing(WindowEvent e) {
 		System.out.println("windowClosing()");
+		
+		//데이터베이스 접속 끊기 
+		try {
+			con.close();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		
+		//프로세스 종료 
+		System.exit(0);
 	}
 	
 	@Override

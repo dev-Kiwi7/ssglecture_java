@@ -1,0 +1,16 @@
+package table;
+
+import javax.swing.JFrame;
+import javax.swing.JTable;
+
+public class TableTest extends JFrame{
+	JTable table;
+	public TableTest() {
+		table = new JTable();
+	}
+	public static void main(String[] 	args) {
+		new TableTest();
+
+	}
+
+}
