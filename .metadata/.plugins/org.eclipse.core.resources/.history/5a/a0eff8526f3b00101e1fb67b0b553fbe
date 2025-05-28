@@ -348,10 +348,9 @@ public class MemberRegist extends JFrame implements ActionListener, WindowListen
 	//한사람에 대한 정보를 담는 배열을 매개변수로 선언
 	//따라서 이 메서드를 호출하는 者는 , 한사람에 대한 정보를 배열로 담아서 전달
 	public void edit(String[] record) { 
-		String sql="update member4  set id='"+record[0]+"' , name='"+record[1]+"', tel='"+record[2]+"' ";
-		sql+=" where  member4_id="+record[3];
+		String sql="update member4  set id='변수' , name='변수', tel='변수' ";
+		sql+=" where  member4_id=변수";
 		
-		System.out.println(sql);
 	}
 	
 	

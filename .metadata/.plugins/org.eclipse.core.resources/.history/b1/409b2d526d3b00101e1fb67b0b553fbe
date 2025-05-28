@@ -57,9 +57,6 @@ public class MemberRegist extends JFrame implements ActionListener, WindowListen
 	//현재 사용자고 보고있는 회원의 pk값 
 	int member4_id;
 	
-	//현재 유저가 선택한 한 회원의 모든 정보 
-	String[] member;
-	
 	public MemberRegist() {
 		//생성
 		p_west = new JPanel();
@@ -344,16 +341,6 @@ public class MemberRegist extends JFrame implements ActionListener, WindowListen
 		
 	}
 	
-	//현재 회원의 정보 수정 
-	//한사람에 대한 정보를 담는 배열을 매개변수로 선언
-	//따라서 이 메서드를 호출하는 者는 , 한사람에 대한 정보를 배열로 담아서 전달
-	public void edit(String[] record) { 
-		String sql="update member4  set id='"+record[0]+"' , name='"+record[1]+"', tel='"+record[2]+"' ";
-		sql+=" where  member4_id="+record[3];
-		
-		System.out.println(sql);
-	}
-	
 	
 	public void actionPerformed(ActionEvent e) {
 		Object obj=e.getSource();
@@ -363,7 +350,7 @@ public class MemberRegist extends JFrame implements ActionListener, WindowListen
 		}else if(obj==bt_edit) {//수정이라면..
 			int result = JOptionPane.showConfirmDialog(this, "수정하시겠어요?");
 			if(result == JOptionPane.OK_OPTION) {
-				edit(member);//이미 멤버변수로 선언된 회원한 사람 정보를 담는 배열을 전달하자
+				edit();
 			}			
 		}else if(obj==bt_del) {//삭제라면..
 			int result = JOptionPane.showConfirmDialog(this, "삭제하시겠어요?");
@@ -448,16 +435,13 @@ public class MemberRegist extends JFrame implements ActionListener, WindowListen
 		//System.out.println("선택한 레코드의 이름은 "+rows[row][1]);
 		System.out.println("선택한 레코드의 pk는 "+rows[row][3]);
 		
-		member = rows[row];//멤버 변수로 보관...
-		
 		//방법2) JTable 자체에 자신의 셀의 정보 반환 
 		//String value=(String)table.getValueAt(row, col);
 		//System.out.println(value);
 		
-		//아래의 코드는 이미 member정보를 보관한 일차원 배열에 의해 불필요한 코드이지만, 
-		//이미 삭제하기를 구현할때 사용했으므로, 그냥 냅둔다..
-		//멤버변수인 member4_id에 보관
+		//멤버변수인 member4_id에 보관 
 		member4_id=Integer.parseInt(rows[row][3]);
+		
 		select(member4_id);//pk 전달
 	}
 
