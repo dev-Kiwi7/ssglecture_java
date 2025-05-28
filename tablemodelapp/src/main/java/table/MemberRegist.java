@@ -54,6 +54,9 @@ public class MemberRegist extends JFrame implements ActionListener, WindowListen
 	
 	Connection con; //접속은 윈도우창 생성시 한번 시도되며, 창 닫을때 접속해제
 	
+	//현재 사용자고 보고있는 회원의 pk값 
+	int member4_id;
+	
 	public MemberRegist() {
 		//생성
 		p_west = new JPanel();
@@ -133,6 +136,9 @@ public class MemberRegist extends JFrame implements ActionListener, WindowListen
 		
 		bt.addActionListener(this); //버튼과 리스너 연결 
 		table.addMouseListener(this); //테이블과 리스너 연결 
+		bt_edit.addActionListener(this); //수정 버튼과 리스너 연결 
+		bt_del.addActionListener(this); //삭제 버튼과 리스너 연결 
+		
 		
 		//윈도우창과 리스너와의 연결 
 		this.addWindowListener(this);
@@ -260,7 +266,7 @@ public class MemberRegist extends JFrame implements ActionListener, WindowListen
 	//선택된 회원만 가져오기 
 	public void select(int member4_id) {
 		//System.out.println("사원 선택했어?");
-		String sql="select * from member4 where member4_id="+0;
+		String sql="select * from member4 where member4_id="+member4_id;
 		System.out.println(sql);
 		
 		//쿼리문이 검증되었으므로, JDBC 통해 네트웍으로 전송하자 
@@ -272,19 +278,83 @@ public class MemberRegist extends JFrame implements ActionListener, WindowListen
 			rs=pstmt.executeQuery(); //레코드 결과 반환 
 			
 			//화면에 출력
-			if(rs.next()) { //레코드가 있다면..아래의 코드 수행 즉 회원이 있을때만...
-				
+			if(rs.next()) { //레코드가 있다면..아래의 코드 수행.즉 회원이 있을때만...
+				la_value.setText(rs.getString("id"));
+				t_name2.setText(rs.getString("name"));
+				t_tel2.setText(rs.getString("tel"));
 			}
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			if(rs!=null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}			
+		}
+		
+	}
+	
+	//선택된 회원 1명 삭제
+	public void delete(int member4_id) {
+		String sql="delete from member4 where member4_id="+member4_id;
+		
+		//System.out.println(sql);
+		PreparedStatement pstmt=null;
+		
+		try {//쿼리객체 생성
+			pstmt=con.prepareStatement(sql);
+			
+			//DML수행시, 이 쿼리 수행에 의해 영향을 받을 레코드 수가 반환된다..개발자는 이 반환값으로 
+			//실행 성공 여부를 판단해야 하는데, 만일 반환값이 0인 경우는 실패!!(에러는 아님)
+			int result = pstmt.executeUpdate();
+			
+			if(result>0) {
+				JOptionPane.showMessageDialog(this, "삭제 성공");
+				//MyModel 이 보유한 예전 이차원 배열을 업데이트 하도록 처리..
+				selectAll();
+				//table.updateUI(); //차이점: 개발자가 그린 그림을 다시 그릴때 repaint()사용 -> update() -> paint() 
+			}else {
+				JOptionPane.showMessageDialog(this, "삭제되지 않았습니다");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}  finally {
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		
 	}
 	
 	
 	public void actionPerformed(ActionEvent e) {
-		regist();
+		Object obj=e.getSource();
+		
+		if(obj==bt) {//등록이라면..
+			regist();			
+		}else if(obj==bt_edit) {//수정이라면..
+			
+		}else if(obj==bt_del) {//삭제라면..
+			int result = JOptionPane.showConfirmDialog(this, "삭제하시겠어요?");
+			if(result == JOptionPane.OK_OPTION) {
+				delete(member4_id); //pk를 넘겨줘야 함
+			}
+		}
 	}
 	
 	public static void main(String[] args) {
@@ -366,7 +436,10 @@ public class MemberRegist extends JFrame implements ActionListener, WindowListen
 		//String value=(String)table.getValueAt(row, col);
 		//System.out.println(value);
 		
-		select(Integer.parseInt(rows[row][3]));//pk 전달
+		//멤버변수인 member4_id에 보관 
+		member4_id=Integer.parseInt(rows[row][3]);
+		
+		select(member4_id);//pk 전달
 	}
 
 	@Override
