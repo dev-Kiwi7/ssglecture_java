@@ -254,6 +254,9 @@ public class EmpLoad extends JFrame{
 				System.out.println("");
 			}
 			System.out.println(model.data);
+			table.setModel(model);
+			table.updateUI();
+			
 		} catch (InvalidFormatException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
