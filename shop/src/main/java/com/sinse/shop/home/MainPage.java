@@ -32,7 +32,6 @@ public class MainPage extends Page{
 				//BufferedImage 객체를 이용하여 얻어온 이미지는 훨씬 더 다양한 제어가 가능..
 				//우리가 원하는 그림을 그리자..즉 패널의 그림을 뺏어 그리자!!
 				g.drawImage(image, 0, 0, Config.MAIN_VISUAL_WIDTH, Config.MAIN_VISUAL_HEIGHT, p_visual);
-				
 			}
 		};
 		
