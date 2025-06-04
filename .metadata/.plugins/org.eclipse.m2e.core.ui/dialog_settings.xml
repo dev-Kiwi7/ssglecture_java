@@ -43,12 +43,14 @@
 	</section>
 	<section name="Maven2ProjectWizardArchifactPage">
 		<list key="package">
+			<item value="com.sinse.dbproject"/>
 			<item value="com.sinse.tablemodelapp"/>
 		</list>
 		<list key="groupId">
 			<item value="com.sinse"/>
 		</list>
 		<list key="artifactId">
+			<item value="dbproject"/>
 			<item value="tablemodelapp"/>
 		</list>
 		<list key="projectNameTemplate">
