@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -126,23 +128,34 @@ public class AppMain extends JFrame{
 			}
 		});
 		
+		this.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				//데이터베이스 접속 끊기
+				if(con!=null) {
+					try {
+						con.close();
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
+				}
+				
+				System.exit(0);//프로세스 종료
+			}
+		});
+		
 		createPage();
 		showPage(-1); //최초에는 로그인폼은 기본으로 떠있게 처리 
 		
-		setDefaultCloseOperation(EXIT_ON_CLOSE); //db연동 후엔 제거 
 		setBounds(2000, 50, Config.ADMINMAIN_WIDTH, Config.ADMINMAIN_HEIGHT);
 		setVisible(true);
 	}
 	
 	
 	public void connect() {
-		String url="jdbc:mysql://localhost:3306/shop";
-		String user="shop";
-		String pass="1234";
 		
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			con=DriverManager.getConnection(url, user, pass);
+			con=DriverManager.getConnection(Config.url, Config.user, Config.pass);
 			if(con !=null) {
 				this.setTitle("MySQL 접속 완료");
 			}else {

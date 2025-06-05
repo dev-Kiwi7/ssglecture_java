@@ -16,28 +16,17 @@ public class ProgressTest extends JFrame{
 	JProgressBar bar3;
 	
 	JButton bt;
-	int n;
-	Thread thread;
-	boolean flag=true;
+	
+	//독립적으로 실행할 단위인 쓰레드 3개 준비
+	ProgressThread t1;
+	ProgressThread t2;
+	ProgressThread t3;
 	
 	public ProgressTest() {
 		bar1 = new JProgressBar();
 		bar2 = new JProgressBar();
 		bar3 = new JProgressBar();
 		bt = new JButton("진행");
-		
-		thread = new Thread() {
-			public void run() {
-				while(flag) {
-					try {
-						Thread.sleep(100);
-						move();
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		};
 		
 		//스타일 
 		Dimension d = new Dimension(750, 45);
@@ -54,7 +43,13 @@ public class ProgressTest extends JFrame{
 		
 		bt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				thread.start(); //jvm에게 맡기기 runnable 상태로 들어가도록..
+				t1=new ProgressThread(bar1,1);
+				t2=new ProgressThread(bar2,5);
+				t3=new ProgressThread(bar3,8);
+				
+				t1.start();
+				t2.start();
+				t3.start();
 			}
 		});
 		
@@ -63,12 +58,7 @@ public class ProgressTest extends JFrame{
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	
-	public void move() {
-		//bar1 증가 
-		n+=2;
-		bar1.setValue(n);
-	}
-	
+
 	public static void main(String[] args) {
 		new ProgressTest();
 	}
