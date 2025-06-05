@@ -89,8 +89,6 @@ public class LoginForm extends Page{
 				admin.setPwd(rs.getString("pwd"));
 				admin.setName(rs.getString("name"));
 				
-				AppMain appMain = new AppMain(con, admin);
-				this.setVisible(false);//자기 자신은 않보여야 함..
 				//주의 System.exit(0) 은 전체 프로그램이 끝나버림..
 			}else {
 				JOptionPane.showMessageDialog(this, "로그인 실패");

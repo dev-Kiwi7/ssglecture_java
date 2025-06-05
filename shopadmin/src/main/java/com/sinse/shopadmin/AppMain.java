@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 
 import com.sinse.shopadmin.common.config.Config;
 import com.sinse.shopadmin.common.view.Page;
+import com.sinse.shopadmin.security.LoginForm;
 import com.sinse.shopadmin.security.model.Admin;
 
 public class AppMain extends JFrame{
@@ -56,6 +57,9 @@ public class AppMain extends JFrame{
 		p_west.setPreferredSize(new Dimension(Config.SIDE_WIDTH, Config.SIDE_HEIGHT));
 		p_west.setBackground(Color.YELLOW);
 		
+		p_container.setPreferredSize(new Dimension(Config.ADMINMAIN_WIDTH-Config.SIDE_WIDTH, Config.ADMINMAIN_HEIGHT-Config.UTIL_HEIGHT));
+		p_container.setBackground(Color.PINK);
+		
 		Dimension d=new Dimension(185, 100);
 		la_product.setPreferredSize(d);
 		la_order.setPreferredSize(d);
@@ -81,6 +85,7 @@ public class AppMain extends JFrame{
 		
 		add(p_north, BorderLayout.NORTH);
 		add(p_west, BorderLayout.WEST);
+		add(p_container);
 		
 		//데이터베이스 접속해놓기
 		connect();
@@ -114,6 +119,8 @@ public class AppMain extends JFrame{
 			}
 		});
 		
+		createPage();
+		showPage(Config.LOGIN_PAGE); //최초에는 로그인폼은 기본으로 떠있게 처리 
 		
 		setDefaultCloseOperation(EXIT_ON_CLOSE); //db연동 후엔 제거 
 		setBounds(2000, 50, Config.ADMINMAIN_WIDTH, Config.ADMINMAIN_HEIGHT);
@@ -151,8 +158,22 @@ public class AppMain extends JFrame{
 	}
 	
 	//쇼핑몰에 사용할 모든 페이지 생성 및 부착 
+	public void createPage() {
+		pages = new Page[1];
+		
+		pages[0]=new LoginForm();
+		
+		for(int i=0;i<pages.length;i++) {
+			p_container.add(pages[i]);
+		}
+	}
 	
-	
+	//부착된 페이지들을 대상으로, 어떤 페이지를 보여줄지를 결정하는 메서드 
+	public void showPage(int target) {
+		for(int i=0;i<pages.length;i++) {
+			pages[i].setVisible((i==target)? true:false);
+		}
+	}
 	
     public static void main( String[] args ){
     	new AppMain();
