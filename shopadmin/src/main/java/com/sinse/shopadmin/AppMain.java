@@ -17,6 +17,13 @@ import javax.swing.JPanel;
 
 import com.sinse.shopadmin.common.config.Config;
 import com.sinse.shopadmin.common.view.Page;
+import com.sinse.shopadmin.config.view.ConfigPage;
+import com.sinse.shopadmin.cs.view.CustomerPage;
+import com.sinse.shopadmin.main.view.MainPage;
+import com.sinse.shopadmin.member.view.MemberJoin;
+import com.sinse.shopadmin.member.view.MemberPage;
+import com.sinse.shopadmin.order.view.OrderPage;
+import com.sinse.shopadmin.product.view.ProductPage;
 import com.sinse.shopadmin.security.LoginForm;
 import com.sinse.shopadmin.security.model.Admin;
 
@@ -31,8 +38,8 @@ public class AppMain extends JFrame{
 	JLabel la_member;
 	JLabel la_cs;
 	JLabel la_config;
-	Connection con;
-	Admin admin;
+	public Connection con;
+	public Admin admin;
 	
 	//모든 페이지를 담게될 배열 
 	Page[] pages;
@@ -95,32 +102,32 @@ public class AppMain extends JFrame{
 		//어댑터란? 우리 대신 리스너의 메서드를 오버라이딩 해놓은 중간 객체, sun사가 개발자 배려..
 		la_product.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				loginCheck();
+				showPage(Config.PRODUCT_PAGE);
 			}
 		});
 		la_order.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				loginCheck();
+				showPage(Config.ORDER_PAGE);
 			}
 		});
 		la_member.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				loginCheck();
+				showPage(Config.MEMBER_PAGE);
 			}
 		});
 		la_cs.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				loginCheck();
+				showPage(Config.CUSTOMER_PAGE);
 			}
 		});
 		la_config.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				loginCheck();
+				showPage(Config.CONFIG_PAGE);
 			}
 		});
 		
 		createPage();
-		showPage(Config.LOGIN_PAGE); //최초에는 로그인폼은 기본으로 떠있게 처리 
+		showPage(-1); //최초에는 로그인폼은 기본으로 떠있게 처리 
 		
 		setDefaultCloseOperation(EXIT_ON_CLOSE); //db연동 후엔 제거 
 		setBounds(2000, 50, Config.ADMINMAIN_WIDTH, Config.ADMINMAIN_HEIGHT);
@@ -148,20 +155,18 @@ public class AppMain extends JFrame{
 		}
 	}
 	
-	//로그인 햇는지 체크하여, 로그인 한 경우만 해당 페이지 보여주기
-	public void loginCheck() {
-		if(admin==null) {
-			JOptionPane.showMessageDialog(this, "로그인이 필요한 서비스입니다");
-		}else {
-			//원래 보여주려면 페이지 보여주기
-		}
-	}
-	
 	//쇼핑몰에 사용할 모든 페이지 생성 및 부착 
 	public void createPage() {
-		pages = new Page[1];
+		pages = new Page[8];
 		
-		pages[0]=new LoginForm();
+		pages[0]=new LoginForm(this);
+		pages[1]=new MainPage(this);
+		pages[2]=new ProductPage(this);
+		pages[3]=new OrderPage(this);
+		pages[4]=new MemberPage(this);
+		pages[5]=new CustomerPage(this);
+		pages[6]=new ConfigPage(this);
+		pages[7]=new MemberJoin(this);
 		
 		for(int i=0;i<pages.length;i++) {
 			p_container.add(pages[i]);
@@ -170,6 +175,13 @@ public class AppMain extends JFrame{
 	
 	//부착된 페이지들을 대상으로, 어떤 페이지를 보여줄지를 결정하는 메서드 
 	public void showPage(int target) {
+		//로그인 체크 
+		if(admin==null && target !=-1 && target!=Config.JOIN_PAGE
+				&& target!=Config.LOGIN_PAGE) {
+			JOptionPane.showMessageDialog(this, "로그인이 필요한 서비스입니다");
+			pages[Config.LOGIN_PAGE].setVisible(true);
+			return;
+		}
 		for(int i=0;i<pages.length;i++) {
 			pages[i].setVisible((i==target)? true:false);
 		}

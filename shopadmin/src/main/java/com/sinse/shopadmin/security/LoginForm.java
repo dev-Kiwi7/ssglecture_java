@@ -17,6 +17,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import com.sinse.shopadmin.AppMain;
+import com.sinse.shopadmin.common.config.Config;
+import com.sinse.shopadmin.common.util.StringUtil;
 import com.sinse.shopadmin.common.view.Page;
 import com.sinse.shopadmin.security.model.Admin;
 
@@ -28,9 +30,8 @@ public class LoginForm extends Page{
 	JButton bt_login;
 	JButton bt_join;
 	
-	Connection con;
-	
-	public LoginForm() {
+	public LoginForm(AppMain appMain) {
+		super(appMain);
 		la_id=new JLabel("ID");
 		la_pwd = new JLabel("Password");
 		t_id = new JTextField();
@@ -60,6 +61,12 @@ public class LoginForm extends Page{
 			}
 		});
 		
+		bt_join.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				appMain.showPage(Config.JOIN_PAGE);
+			}
+		});
+		
 		setPreferredSize(new Dimension(270, 145));
 	}
 	
@@ -72,15 +79,16 @@ public class LoginForm extends Page{
 		ResultSet rs=null;
 		
 		try {
-			pstmt=con.prepareStatement(sql);
+			pstmt=appMain.con.prepareStatement(sql);
 			//쿼리문을 수행하기 위해, 바인드 변수를 먼저 지정해야 한다.. 
 			pstmt.setString(1, id);
-			pstmt.setString(2, pwd);
+			pstmt.setString(2, StringUtil.getSecuredPass(pwd));
 			rs=pstmt.executeQuery();//select문은 표를 반환한다..
 			
 			if(rs.next()) {//한칸 전진 후 true 가반환된다면..일치하는 데이터가 있다는 것이고, 
 								//일치하는 데이터가 있다는 것은 로그인 성공!!
 				JOptionPane.showMessageDialog(this, "로그인 성공");
+				
 				
 				//로그인 성공한 사람의 정보 담기!!!
 				Admin admin= new Admin();//empty 상태의 객체 생성 
@@ -89,6 +97,11 @@ public class LoginForm extends Page{
 				admin.setPwd(rs.getString("pwd"));
 				admin.setName(rs.getString("name"));
 				
+				//AppMain이 보유하고 있는 Admin 모델객체의 현재 null값을 위에서 생성한 Admin대체
+				appMain.admin=admin;
+				
+				//현재 유저가 보고 있는 페이자가 MainPage로 교체. 
+				appMain.showPage(Config.MAIN_PAGE);
 				//주의 System.exit(0) 은 전체 프로그램이 끝나버림..
 			}else {
 				JOptionPane.showMessageDialog(this, "로그인 실패");
