@@ -2,6 +2,11 @@ package com.sinse.shopadmin.product.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -12,6 +17,7 @@ import javax.swing.JTextField;
 
 import com.sinse.shopadmin.AppMain;
 import com.sinse.shopadmin.common.view.Page;
+import com.sinse.shopadmin.product.model.TopCategory;
 
 //상품 등록 페이지 
 public class ProductPage extends Page{
@@ -27,7 +33,7 @@ public class ProductPage extends Page{
 	JLabel la_introduce;
 	JLabel la_detail;
 	
-	JComboBox cb_topcategory;
+	JComboBox<TopCategory> cb_topcategory;
 	JComboBox cb_subcategory;
 	JTextField t_product_name;
 	JTextField t_brand;
@@ -128,8 +134,77 @@ public class ProductPage extends Page{
 		add(bt_list);
 		
 		setPreferredSize(new Dimension(880, 750));
+		
+		//최상위 카테고리에 이벤트 연결 
+		cb_topcategory.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if(e.getStateChange() == ItemEvent.SELECTED) {
+					System.out.println("다른 아이템을 선택햇어?");
+						
+					TopCategory topCategory=(TopCategory)cb_topcategory.getSelectedItem();
+					int topcategory_id=topCategory.getTopcategory_id();
+					System.out.println(topcategory_id);
+					
+				}
+			}
+		});
+		
+		//최상위 카테고리 불러오기 
+		getTopCategory();
+		
+		
+		
+	}
+	
+	public void getTopCategory() {
+		StringBuffer sql=new StringBuffer();
+		sql.append("select * from topcategory");
+		
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		try {
+			pstmt=appMain.con.prepareStatement(sql.toString());
+			rs=pstmt.executeQuery();//select 문일 경우..
+			
+			//한칸씩 커서를 이동하면서, 콤포박스에 채워넣기 
+			while(rs.next()) {
+				//상위 카테고리 레코드 한건은, 이름만을 보유한 데이터가 아니라, 2개의 컬럼을 갖는 복합 데이터이므로
+				//자바의 객체로 담아버리자 !! 
+				TopCategory topCategory = new TopCategory();
+				//은닉화된 객체의 데이터를 넣을때는 setter로 넣어줘야 함 
+				topCategory.setTopcategory_id(rs.getInt("topcategory_id"));   //pk
+				topCategory.setTop_name(rs.getString("top_name"));  //top_name
+				
+				cb_topcategory.addItem( topCategory);//String 을 넣지말고, 더 많은 데이터를 안고있는
+																		//모델 객체를 넣어버림
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			if(rs!=null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				e.printStackTrace();
+				}
+			}
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			
+		}
+		
+		
 	}
 }
+
+
+
+
 
 
 
