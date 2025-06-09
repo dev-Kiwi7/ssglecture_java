@@ -40,8 +40,7 @@ public class DBManager {
 		}
 		return instance;
 	}
-	
-	
+
 	public Connection getConnetion() {
 		return con;
 	}
@@ -56,8 +55,6 @@ public class DBManager {
 			}
 		}		
 	}
-	
-	//select 
 	public void release(PreparedStatement pstmt, ResultSet rs) { //select
 		if(rs!=null) {
 			try {

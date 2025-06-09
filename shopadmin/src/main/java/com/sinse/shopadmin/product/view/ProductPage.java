@@ -4,9 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -17,7 +15,10 @@ import javax.swing.JTextField;
 
 import com.sinse.shopadmin.AppMain;
 import com.sinse.shopadmin.common.view.Page;
+import com.sinse.shopadmin.product.model.SubCategory;
 import com.sinse.shopadmin.product.model.TopCategory;
+import com.sinse.shopadmin.product.repository.SubCategoryDAO;
+import com.sinse.shopadmin.product.repository.TopCategoryDAO;
 
 //상품 등록 페이지 
 public class ProductPage extends Page{
@@ -46,6 +47,8 @@ public class ProductPage extends Page{
 	JTextArea t_detail;
 	JButton bt_regist; //상품 등록 
 	JButton bt_list; //상품 목록 
+	TopCategoryDAO topCategoryDAO;
+	SubCategoryDAO subCategoryDAO;
 	
 	public ProductPage(AppMain appMain) {
 		super(appMain);
@@ -77,6 +80,8 @@ public class ProductPage extends Page{
 		t_detail = new JTextArea();
 		bt_regist = new JButton("등록");
 		bt_list = new JButton("목록");
+		topCategoryDAO = new TopCategoryDAO();
+		subCategoryDAO = new SubCategoryDAO();
 		
 		//스타일
 		Dimension d = new Dimension(400, 30);
@@ -142,8 +147,18 @@ public class ProductPage extends Page{
 					System.out.println("다른 아이템을 선택햇어?");
 						
 					TopCategory topCategory=(TopCategory)cb_topcategory.getSelectedItem();
-					int topcategory_id=topCategory.getTopcategory_id();
-					System.out.println(topcategory_id);
+					
+					//하위 카테고리 목록 가져오기
+					List<SubCategory> subList=subCategoryDAO.selectByTop(topCategory);
+					
+					//모든 하위 카테고리 콤보아이템 지우기 
+					cb_subcategory.removeAllItems();
+					
+					//서브 카테고리 수만큼 반복하면서, 두번째 콤포박스에 SubCategory 모델을 채워넣기 
+					for(int i=0;i<subList.size();i++) {
+						SubCategory subCategory=subList.get(i);//i번째 요소 꺼내기
+						cb_subcategory.addItem(subCategory);
+					}
 					
 				}
 			}
@@ -156,48 +171,20 @@ public class ProductPage extends Page{
 		
 	}
 	
+	//DAO를 통해 얻어온 List를 이용하여 콤보박스 채우기 
 	public void getTopCategory() {
-		StringBuffer sql=new StringBuffer();
-		sql.append("select * from topcategory");
+		List<TopCategory> topList=topCategoryDAO.selectAll();
 		
-		PreparedStatement pstmt=null;
-		ResultSet rs=null;
-		try {
-			pstmt=appMain.con.prepareStatement(sql.toString());
-			rs=pstmt.executeQuery();//select 문일 경우..
-			
-			//한칸씩 커서를 이동하면서, 콤포박스에 채워넣기 
-			while(rs.next()) {
-				//상위 카테고리 레코드 한건은, 이름만을 보유한 데이터가 아니라, 2개의 컬럼을 갖는 복합 데이터이므로
-				//자바의 객체로 담아버리자 !! 
-				TopCategory topCategory = new TopCategory();
-				//은닉화된 객체의 데이터를 넣을때는 setter로 넣어줘야 함 
-				topCategory.setTopcategory_id(rs.getInt("topcategory_id"));   //pk
-				topCategory.setTop_name(rs.getString("top_name"));  //top_name
-				
-				cb_topcategory.addItem( topCategory);//String 을 넣지말고, 더 많은 데이터를 안고있는
-																		//모델 객체를 넣어버림
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally {
-			if(rs!=null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-				e.printStackTrace();
-				}
-			}
-			if(pstmt!=null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			
+		//안내 문구 역할을 수행할 dummy 모델을 콤보박스에 넣어주자 
+		TopCategory dummy=new TopCategory();
+		dummy.setTop_name("상위 카테고리를 선택하세요");
+		dummy.setTopcategory_id(0);
+		cb_topcategory.addItem(dummy);
+		
+		for(int i=0;i<topList.size();i++) {
+			TopCategory topcategory=topList.get(i);
+			cb_topcategory.addItem(topcategory);
 		}
-		
 		
 	}
 }

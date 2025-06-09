@@ -26,5 +26,21 @@ public class SubCategory {
 		this.topcategory = topcategory;
 	}
 
+	@Override
+	public String toString() {
+		return sub_name;
+	}
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+

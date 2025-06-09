@@ -21,7 +21,7 @@ import com.sinse.shopadmin.product.model.TopCategory;
 //므로..View가 섞여 있으면 안됨...
 public class TopCategoryDAO {
 	//아래의 코드의 동작 시점?  dbManager 인스턴스 변수이므로, 누군가가 new TopCategoryDAO()
-	//호출할때 초기화면서 DBManager의 인스턴스 값으로 채워진다!!
+	//호출할 때 초기화면서 DBManager의 인스턴스 값으로 채워진다!!
 	DBManager dbManager=DBManager.getInstance();
 	
 	//public TopCategoryDAO() {
@@ -49,7 +49,6 @@ public class TopCategoryDAO {
 			sql.append("select * from topcategory");
 			pstmt=con.prepareStatement(sql.toString());
 			rs=pstmt.executeQuery();
-			list = new ArrayList();
 			
 			while(rs.next()) {
 				TopCategory topcategory=new TopCategory();
