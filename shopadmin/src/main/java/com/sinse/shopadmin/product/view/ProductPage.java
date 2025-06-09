@@ -32,6 +32,7 @@ public class ProductPage extends Page{
 	JTextField t_product_name;
 	JTextField t_brand;
 	JTextField t_price;
+	JTextField t_discount;
 	JTextField t_color;
 	JTextField t_size;
 	JPanel p_preview; //관리자가 선택한 상품이미지를 미리보기 한다
@@ -62,6 +63,7 @@ public class ProductPage extends Page{
 		t_product_name = new JTextField();
 		t_brand = new JTextField();
 		t_price = new JTextField();
+		t_discount = new JTextField();
 		t_color = new JTextField();
 		t_size = new JTextField();
 		p_preview = new JPanel(); //추후 익명 내부 클래스로 전환 
@@ -89,15 +91,41 @@ public class ProductPage extends Page{
 		t_product_name.setPreferredSize(d);
 		t_brand.setPreferredSize(d);
 		t_price.setPreferredSize(d);
+		t_discount.setPreferredSize(d);
 		t_color.setPreferredSize(d);
 		t_size.setPreferredSize(d);
 		p_preview.setPreferredSize(new Dimension(200, 80)); //이미지 미리보기 도화지..
 		t_introduce.setPreferredSize(new Dimension(200, 50)); //GPT를 연동한 소개글 
-		t_detail.setPreferredSize(new Dimension(200, 60));
+		t_detail.setPreferredSize(new Dimension(260, 60));
 		
 		
 		//조립 
+		add(la_topcategory);
+		add(cb_topcategory);
+		add(la_subcategory);
+		add(cb_subcategory);
+		add(la_product_name);
+		add(t_product_name);
+		add(la_brand);
+		add(t_brand);
+		add(la_price);
+		add(t_price);
+		add(la_discount);
+		add(t_discount);
+		add(la_color);
+		add(t_color);
+		add(la_size);
+		add(t_size);
+		add(bt_open);
+		add(p_preview);
+		add(la_introduce);
+		add(t_introduce);
+		add(la_detail);
+		add(t_detail);
+		add(bt_regist);
+		add(bt_list);
 		
+		setPreferredSize(new Dimension(480, 750));
 	}
 }
 

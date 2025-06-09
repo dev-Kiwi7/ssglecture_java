@@ -41,7 +41,7 @@ public class AppMain extends JFrame{
 	JLabel la_cs;
 	JLabel la_config;
 	public Connection con;
-	public Admin admin;
+	public Admin admin=new Admin(); //추후 제거될 예정
 	
 	//모든 페이지를 담게될 배열 
 	Page[] pages;
