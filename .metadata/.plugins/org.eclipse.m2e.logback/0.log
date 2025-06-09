@@ -5105,3 +5105,15 @@ Caused by: org.codehaus.plexus.util.xml.pull.XmlPullParserException: expected ST
 2025-06-09 09:44:03,817 [Worker-5: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\lecture_workspace\backend\java_workspace\shopadmin\src\test\resources
 2025-06-09 09:44:42,833 [Worker-2: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\lecture_workspace\backend\java_workspace\shopadmin\src\main\resources
 2025-06-09 09:44:42,835 [Worker-2: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\lecture_workspace\backend\java_workspace\shopadmin\src\test\resources
+2025-06-09 09:45:43,803 [Worker-4: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\lecture_workspace\backend\java_workspace\shopadmin\src\main\resources
+2025-06-09 09:45:43,806 [Worker-4: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\lecture_workspace\backend\java_workspace\shopadmin\src\test\resources
+2025-06-09 11:09:36,727 [Worker-10: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\lecture_workspace\backend\java_workspace\shopadmin\src\main\resources
+2025-06-09 11:09:36,731 [Worker-10: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\lecture_workspace\backend\java_workspace\shopadmin\src\test\resources
+2025-06-09 11:10:24,202 [Worker-5: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\lecture_workspace\backend\java_workspace\shopadmin\src\main\resources
+2025-06-09 11:10:24,204 [Worker-5: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\lecture_workspace\backend\java_workspace\shopadmin\src\test\resources
+2025-06-09 11:10:36,420 [Worker-0: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\lecture_workspace\backend\java_workspace\shopadmin\src\main\resources
+2025-06-09 11:10:36,422 [Worker-0: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\lecture_workspace\backend\java_workspace\shopadmin\src\test\resources
+2025-06-09 11:10:48,748 [Worker-3: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\lecture_workspace\backend\java_workspace\shopadmin\src\main\resources
+2025-06-09 11:10:48,750 [Worker-3: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\lecture_workspace\backend\java_workspace\shopadmin\src\test\resources
+2025-06-09 11:11:12,598 [Worker-4: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\lecture_workspace\backend\java_workspace\shopadmin\src\main\resources
+2025-06-09 11:11:12,601 [Worker-4: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\lecture_workspace\backend\java_workspace\shopadmin\src\test\resources

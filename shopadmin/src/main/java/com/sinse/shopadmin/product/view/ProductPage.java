@@ -47,13 +47,13 @@ public class ProductPage extends Page{
 		
 		//생성 
 		la_topcategory = new JLabel("최상위 카테고리");
-		la_subcategory = new JLabel("최상위 카테고리");
-		la_product_name = new JLabel("최상위 카테고리");
-		la_brand = new JLabel("최상위 카테고리");
-		la_price = new JLabel("최상위 카테고리");
-		la_discount = new JLabel("최상위 카테고리");
-		la_color = new JLabel("최상위 카테고리");
-		la_size = new JLabel("최상위 카테고리");
+		la_subcategory = new JLabel("하위 카테고리");
+		la_product_name = new JLabel("상품명");
+		la_brand = new JLabel("브랜드");
+		la_price = new JLabel("가격");
+		la_discount = new JLabel("할인가");
+		la_color = new JLabel("색상");
+		la_size = new JLabel("사이즈");
 		bt_open = new JButton("상품사진 등록");
 		la_introduce=new JLabel("상품 소개");
 		la_detail = new JLabel("상세설명");
@@ -73,7 +73,7 @@ public class ProductPage extends Page{
 		bt_list = new JButton("목록");
 		
 		//스타일
-		Dimension d = new Dimension(200, 30);
+		Dimension d = new Dimension(400, 30);
 		la_topcategory.setPreferredSize(d);
 		la_subcategory.setPreferredSize(d);
 		la_product_name.setPreferredSize(d);
@@ -94,10 +94,12 @@ public class ProductPage extends Page{
 		t_discount.setPreferredSize(d);
 		t_color.setPreferredSize(d);
 		t_size.setPreferredSize(d);
-		p_preview.setPreferredSize(new Dimension(200, 80)); //이미지 미리보기 도화지..
-		t_introduce.setPreferredSize(new Dimension(200, 50)); //GPT를 연동한 소개글 
-		t_detail.setPreferredSize(new Dimension(260, 60));
+		p_preview.setPreferredSize(new Dimension(400, 80)); //이미지 미리보기 도화지..
+		t_introduce.setPreferredSize(new Dimension(400, 50)); //GPT를 연동한 소개글 
+		t_detail.setPreferredSize(new Dimension(400, 60));
 		
+		bt_regist.setPreferredSize(new Dimension(130, 30));
+		bt_list.setPreferredSize(new Dimension(130, 30));
 		
 		//조립 
 		add(la_topcategory);
@@ -125,7 +127,7 @@ public class ProductPage extends Page{
 		add(bt_regist);
 		add(bt_list);
 		
-		setPreferredSize(new Dimension(480, 750));
+		setPreferredSize(new Dimension(880, 750));
 	}
 }
 
