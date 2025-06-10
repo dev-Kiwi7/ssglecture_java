@@ -2,13 +2,20 @@ package com.sinse.shopadmin.product.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Vector;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -60,6 +67,10 @@ public class ProductPage extends Page{
 	ColorDAO colorDAO;
 	SizeDAO sizeDAO;
 	
+	JFileChooser chooser;
+	Image[] imgArray; //유저가 선택한 파일로부터 생성된 이미지 배열
+	
+	
 	public ProductPage(AppMain appMain) {
 		super(appMain);
 		setBackground(Color.CYAN);
@@ -88,7 +99,19 @@ public class ProductPage extends Page{
 		scroll_color = new JScrollPane(t_color);
 		scroll_size = new JScrollPane(t_size);
 		
-		p_preview = new JPanel(); //추후 익명 내부 클래스로 전환 
+		p_preview = new JPanel() {
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				
+				//유저가 선택한 파일 수만큼 반복하면서 이미지를 그려주자
+				if(imgArray !=null) {//배열이 존재할때만 그리게...
+					for(int i=0;i<imgArray.length;i++) {
+						g.drawImage(imgArray[i], 5+(i*50), 5, 45, 45, appMain);
+					}				
+				}
+			}
+		}; //추후 익명 내부 클래스로 전환 
+		
 		t_introduce = new JTextArea();
 		t_detail = new JTextArea();
 		bt_regist = new JButton("등록");
@@ -98,6 +121,8 @@ public class ProductPage extends Page{
 		subCategoryDAO = new SubCategoryDAO();
 		colorDAO = new ColorDAO();
 		sizeDAO = new SizeDAO();
+		chooser = new JFileChooser("C:/sinse_202504/front_workspace/images");
+		chooser.setMultiSelectionEnabled(true);//다중 선택 가능하도록 설정..
 		
 		//스타일
 		Dimension d = new Dimension(400, 30);
@@ -174,6 +199,29 @@ public class ProductPage extends Page{
 		
 		getColorList();
 		getSizeList();
+		
+		//파일 탐색기 띄우기 
+		bt_open.addActionListener(e->{
+			chooser.showOpenDialog(ProductPage.this);
+			
+			//유저가 선택한 파일에 대한 정보 얻기 
+			File[] files=chooser.getSelectedFiles();
+			imgArray = new Image[files.length];//유저가 선택한 파일의 수에 맞게 이미지배열 준비
+			
+			//파일을 파일일뿐, 이미지가 아니므로, 파일을 이용하여 이미지를 만들자!!!
+			
+			try {
+				for(int i=0;i<files.length;i++) {
+					BufferedImage buffrImg=ImageIO.read(files[i]);
+					imgArray[i]=buffrImg.getScaledInstance(45, 45, Image.SCALE_SMOOTH);
+				}
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			
+			//그림 다시 그리기 
+			p_preview.repaint();
+		});
 	}
 	
 	//DAO를 통해 얻어온 List를 이용하여 콤보박스 채우기 
@@ -212,8 +260,8 @@ public class ProductPage extends Page{
 			SubCategory subCategory=subList.get(i);//i번째 요소 꺼내기
 			cb_subcategory.addItem(subCategory);
 		}
-		
 	}
+	
 	public void getColorList() {
 		t_color.setListData(new Vector(colorDAO.selectAll()));
 	}
