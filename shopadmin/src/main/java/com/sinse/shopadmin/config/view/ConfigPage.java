@@ -14,6 +14,7 @@ import javax.swing.border.TitledBorder;
 import com.sinse.shopadmin.AppMain;
 import com.sinse.shopadmin.common.config.Config;
 import com.sinse.shopadmin.common.view.Page;
+import com.sinse.shopadmin.product.repository.ColorDAO;
 
 public class ConfigPage extends Page{
 	
@@ -30,7 +31,7 @@ public class ConfigPage extends Page{
 	JButton bt_size;
 	JList list_size;
 	JScrollPane scroll_size;
-	
+	ColorDAO colorDAO;
 	
 	public ConfigPage(AppMain appMain) {
 		super(appMain);
@@ -50,6 +51,7 @@ public class ConfigPage extends Page{
 		bt_size = new JButton("등록");
 		list_size = new JList();
 		scroll_size = new JScrollPane(list_size);
+		colorDAO = new ColorDAO();
 		
 		//스타일 
 		Dimension d=  new Dimension(150, 30);
@@ -80,6 +82,21 @@ public class ConfigPage extends Page{
 		
 		add(p_color);
 		add(p_size);
+		
+		//색상 등록 버튼에 이벤트 연결
+		
+		//이벤트 리스너를 처리할 로직을 객체수준까지 정의한다는 것은 너무 거창하므로, 
+		//java 이벤트 처리나, 함수형 인터페이스 구현 시에는 js의 화살표 함수와 비슷한 개념의 
+		//함수형 코드를 도입하기 시작함...람다(Lambda)
+		//아무때나 사용할 수 없고,  함수형 인터페이스에 국한됨..
+		bt_color.addActionListener((e)->{
+			regist();
+		});
+	}
+	
+	//색상 등록 ( DAO에게 일 시키기)  
+	public void regist() {
+		
 	}
 }
 
