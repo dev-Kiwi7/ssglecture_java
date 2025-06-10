@@ -57,7 +57,7 @@ public class AppMain extends JFrame{
 		la_order = new JLabel("주문관리");
 		la_member = new JLabel("회원관리");
 		la_cs = new JLabel("고객센터");
-		la_config = new JLabel("환경설정");
+		la_config = new JLabel("쇼핑몰관리");
 		
 		//스타일
 		p_north.setPreferredSize(new Dimension(Config.UTIL_WIDTH, Config.UTIL_HEIGHT));
