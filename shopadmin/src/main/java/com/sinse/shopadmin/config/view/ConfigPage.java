@@ -18,7 +18,9 @@ import com.sinse.shopadmin.AppMain;
 import com.sinse.shopadmin.common.config.Config;
 import com.sinse.shopadmin.common.view.Page;
 import com.sinse.shopadmin.product.model.Color;
+import com.sinse.shopadmin.product.model.Size;
 import com.sinse.shopadmin.product.repository.ColorDAO;
+import com.sinse.shopadmin.product.repository.SizeDAO;
 
 public class ConfigPage extends Page{
 	
@@ -36,6 +38,7 @@ public class ConfigPage extends Page{
 	JList list_size;
 	JScrollPane scroll_size;
 	ColorDAO colorDAO;
+	SizeDAO sizeDAO;
 	
 	public ConfigPage(AppMain appMain) {
 		super(appMain);
@@ -56,6 +59,8 @@ public class ConfigPage extends Page{
 		list_size = new JList();
 		scroll_size = new JScrollPane(list_size);
 		colorDAO = new ColorDAO();
+		sizeDAO = new SizeDAO();
+		
 		
 		//스타일 
 		Dimension d=  new Dimension(150, 30);
@@ -88,6 +93,7 @@ public class ConfigPage extends Page{
 		add(p_size);
 		
 		getList();
+		getListSize();
 		
 		//색상 등록 버튼에 이벤트 연결
 		//이벤트 리스너를 처리할 로직을 객체수준까지 정의한다는 것은 너무 거창하므로, 
@@ -98,6 +104,12 @@ public class ConfigPage extends Page{
 			regist();//등록
 			
 			getList();//목록
+		});
+		
+		//재정의할 메서드의 매개변수가 1개밖에 없을때는 소괄호마저도 생략가능..
+		bt_size.addActionListener(e->{
+			registSize();
+			getListSize();
 		});
 	}
 	
@@ -115,6 +127,20 @@ public class ConfigPage extends Page{
 		}
 	}
 	
+	//사이즈 등록 ( DAO에게 일 시키기)  
+	public void registSize() {
+		Size size = new Size(); //empty 상태 
+		size.setSize_name(t_size.getText()); //심어넣을때는 setter로 넣어야 함..
+		
+		int result=sizeDAO.insert(size); 
+		
+		if(result>0) {
+			JOptionPane.showMessageDialog(this,"등록성공");
+		}else {
+			JOptionPane.showMessageDialog(this,"등록실패");
+		}
+	}
+	
 	//목록 가져오기 
 	public void getList() {
 		List<Color> colorList=colorDAO.selectAll();
@@ -122,6 +148,12 @@ public class ConfigPage extends Page{
 		Vector vec=new Vector(colorList); //ArrayList 와 동일하지만, 쓰레드 동기화 지원..(내부적 연산이 들어가서 속도 느림)
 		list_color.setListData(vec);
 		System.out.println(vec.size());
+	}
+	
+	public void getListSize() {
+		List<Size> sizeList=sizeDAO.selectAll();
+		Vector vec=new Vector(sizeList);
+		list_size.setListData(vec);
 	}
 }
 

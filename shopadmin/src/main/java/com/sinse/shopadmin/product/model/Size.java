@@ -17,5 +17,8 @@ public class Size {
 		this.size_name = size_name;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return size_name;
+	}
 }
