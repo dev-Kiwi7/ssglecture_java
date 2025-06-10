@@ -19,5 +19,8 @@ public class Color {
 		this.color_name = color_name;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return color_name;
+	}
 }

@@ -186,6 +186,8 @@ public class ProductPage extends Page{
 		dummy.setSubcategory_id(0);
 		cb_subcategory.addItem(dummy);
 		
+		 
+		
 		//서브 카테고리 수만큼 반복하면서, 두번째 콤포박스에 SubCategory 모델을 채워넣기 
 		for(int i=0;i<subList.size();i++) {
 			SubCategory subCategory=subList.get(i);//i번째 요소 꺼내기

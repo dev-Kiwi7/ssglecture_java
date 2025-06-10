@@ -1,11 +1,14 @@
 package com.sinse.shopadmin.config.view;
 
-import java.awt.Color;
+
 import java.awt.Dimension;
+import java.util.List;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -14,6 +17,7 @@ import javax.swing.border.TitledBorder;
 import com.sinse.shopadmin.AppMain;
 import com.sinse.shopadmin.common.config.Config;
 import com.sinse.shopadmin.common.view.Page;
+import com.sinse.shopadmin.product.model.Color;
 import com.sinse.shopadmin.product.repository.ColorDAO;
 
 public class ConfigPage extends Page{
@@ -35,7 +39,7 @@ public class ConfigPage extends Page{
 	
 	public ConfigPage(AppMain appMain) {
 		super(appMain);
-		setBackground(Color.GREEN);
+		setBackground(java.awt.Color.GREEN);
 		
 		//생성 
 		p_color = new JPanel();
@@ -83,20 +87,41 @@ public class ConfigPage extends Page{
 		add(p_color);
 		add(p_size);
 		
-		//색상 등록 버튼에 이벤트 연결
+		getList();
 		
+		//색상 등록 버튼에 이벤트 연결
 		//이벤트 리스너를 처리할 로직을 객체수준까지 정의한다는 것은 너무 거창하므로, 
 		//java 이벤트 처리나, 함수형 인터페이스 구현 시에는 js의 화살표 함수와 비슷한 개념의 
 		//함수형 코드를 도입하기 시작함...람다(Lambda)
 		//아무때나 사용할 수 없고,  함수형 인터페이스에 국한됨..
 		bt_color.addActionListener((e)->{
-			regist();
+			regist();//등록
+			
+			getList();//목록
 		});
 	}
 	
 	//색상 등록 ( DAO에게 일 시키기)  
 	public void regist() {
+		Color color = new Color(); //empty 상태 
+		color.setColor_name(t_color.getText()); //심어넣을때는 setter로 넣어야 함..
 		
+		int result=colorDAO.insert(color); //Color의 인스턴스 넣기!!
+		
+		if(result>0) {
+			JOptionPane.showMessageDialog(this,"등록성공");
+		}else {
+			JOptionPane.showMessageDialog(this,"등록실패");
+		}
+	}
+	
+	//목록 가져오기 
+	public void getList() {
+		List<Color> colorList=colorDAO.selectAll();
+		//Collection framework에 최적화된 개선된 for문 improved for  java 5버전
+		Vector vec=new Vector(colorList); //ArrayList 와 동일하지만, 쓰레드 동기화 지원..(내부적 연산이 들어가서 속도 느림)
+		list_color.setListData(vec);
+		System.out.println(vec.size());
 	}
 }
 

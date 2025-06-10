@@ -2,9 +2,10 @@ package com.sinse.shopadmin.product.repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import javax.swing.JOptionPane;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.sinse.shopadmin.common.util.DBManager;
 import com.sinse.shopadmin.product.model.Color;
@@ -37,7 +38,49 @@ public class ColorDAO {
 		}
 		return result;
 	}
+	
+	//모든 색상 가져오기
+	public List selectAll() {
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		ArrayList list=new ArrayList();
+		
+		con=dbManager.getConnetion();
+		StringBuffer sql = new StringBuffer();
+		sql.append("select * from color");
+		
+		try {
+			pstmt=con.prepareStatement(sql.toString());
+			rs=pstmt.executeQuery();//표 반환...
+			
+			//rs죽이기 전에 rs가 보유한 데이터를 모델 객체로 옮기자!!!
+			// 모델 인스턴스 1건은 레코드 1건을 담는다..
+			while(rs.next()) {
+				Color color = new Color(); //레코드 1건을 담는 모델 인스턴스
+				color.setColor_id(rs.getInt("color_id"));
+				color.setColor_name(rs.getString("color_name"));
+				list.add(color);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			dbManager.release(pstmt, rs);
+		}
+		return list;
+	}
+	
 }
+
+
+
+
+
+
+
+
+
+
 
 
 
