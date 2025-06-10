@@ -5,11 +5,14 @@ import java.awt.Dimension;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.List;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -17,6 +20,8 @@ import com.sinse.shopadmin.AppMain;
 import com.sinse.shopadmin.common.view.Page;
 import com.sinse.shopadmin.product.model.SubCategory;
 import com.sinse.shopadmin.product.model.TopCategory;
+import com.sinse.shopadmin.product.repository.ColorDAO;
+import com.sinse.shopadmin.product.repository.SizeDAO;
 import com.sinse.shopadmin.product.repository.SubCategoryDAO;
 import com.sinse.shopadmin.product.repository.TopCategoryDAO;
 
@@ -40,15 +45,20 @@ public class ProductPage extends Page{
 	JTextField t_brand;
 	JTextField t_price;
 	JTextField t_discount;
-	JTextField t_color;
-	JTextField t_size;
+	JList t_color;
+	JList t_size;
+	JScrollPane scroll_color;
+	JScrollPane scroll_size;
 	JPanel p_preview; //관리자가 선택한 상품이미지를 미리보기 한다
 	JTextArea t_introduce; //상품 소개 
 	JTextArea t_detail;
 	JButton bt_regist; //상품 등록 
 	JButton bt_list; //상품 목록 
+
 	TopCategoryDAO topCategoryDAO;
 	SubCategoryDAO subCategoryDAO;
+	ColorDAO colorDAO;
+	SizeDAO sizeDAO;
 	
 	public ProductPage(AppMain appMain) {
 		super(appMain);
@@ -73,15 +83,21 @@ public class ProductPage extends Page{
 		t_brand = new JTextField();
 		t_price = new JTextField();
 		t_discount = new JTextField();
-		t_color = new JTextField();
-		t_size = new JTextField();
+		t_color = new JList();
+		t_size = new JList();
+		scroll_color = new JScrollPane(t_color);
+		scroll_size = new JScrollPane(t_size);
+		
 		p_preview = new JPanel(); //추후 익명 내부 클래스로 전환 
 		t_introduce = new JTextArea();
 		t_detail = new JTextArea();
 		bt_regist = new JButton("등록");
 		bt_list = new JButton("목록");
+
 		topCategoryDAO = new TopCategoryDAO();
 		subCategoryDAO = new SubCategoryDAO();
+		colorDAO = new ColorDAO();
+		sizeDAO = new SizeDAO();
 		
 		//스타일
 		Dimension d = new Dimension(400, 30);
@@ -103,8 +119,8 @@ public class ProductPage extends Page{
 		t_brand.setPreferredSize(d);
 		t_price.setPreferredSize(d);
 		t_discount.setPreferredSize(d);
-		t_color.setPreferredSize(d);
-		t_size.setPreferredSize(d);
+		scroll_color.setPreferredSize(new Dimension(400, 80));
+		scroll_size.setPreferredSize(new Dimension(400, 80));
 		p_preview.setPreferredSize(new Dimension(400, 80)); //이미지 미리보기 도화지..
 		t_introduce.setPreferredSize(new Dimension(400, 50)); //GPT를 연동한 소개글 
 		t_detail.setPreferredSize(new Dimension(400, 60));
@@ -126,9 +142,9 @@ public class ProductPage extends Page{
 		add(la_discount);
 		add(t_discount);
 		add(la_color);
-		add(t_color);
+		add(scroll_color);
 		add(la_size);
-		add(t_size);
+		add(scroll_size);
 		add(bt_open);
 		add(p_preview);
 		add(la_introduce);
@@ -155,6 +171,9 @@ public class ProductPage extends Page{
 		
 		//최상위 카테고리 불러오기 
 		getTopCategory();
+		
+		getColorList();
+		getSizeList();
 	}
 	
 	//DAO를 통해 얻어온 List를 이용하여 콤보박스 채우기 
@@ -195,6 +214,14 @@ public class ProductPage extends Page{
 		}
 		
 	}
+	public void getColorList() {
+		t_color.setListData(new Vector(colorDAO.selectAll()));
+	}
+
+	public void getSizeList() {
+		t_size.setListData(new Vector(sizeDAO.selectAll()));
+	}
+	
 }
 
 
