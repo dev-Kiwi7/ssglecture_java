@@ -84,7 +84,13 @@ public class MyBar extends JProgressBar implements Runnable{
 			try {
 				read=fis.read(buff);
 				if(read==-1)break;
-				fos.write(buff , 0, read); 
+				fos.write(buff , 0, read);
+				
+				try {
+					Thread.sleep(1);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 				showRate(read);
 			} catch (IOException e) {
 				e.printStackTrace();

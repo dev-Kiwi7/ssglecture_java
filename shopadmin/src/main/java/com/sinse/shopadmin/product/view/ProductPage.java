@@ -289,11 +289,44 @@ public class ProductPage extends Page{
 		UploadDialog dialog=new UploadDialog(this);
 	}
 	
+	//mysql 에 상품 등록관련 쿼리 수행 
+	public void insert() {
+		
+		
+	}
+	
 	//이미지 업로드 및 DB insert  
 	public void regist() {
-		upload();
+		//양식을 제대로 입력했을때
 		
-		//insert~~~
+		//상위카테고리 유효성 체크
+		if(cb_topcategory.getSelectedIndex()==0) {
+			JOptionPane.showMessageDialog(this, "상위 카테고리를 선택하셔야 합니다");
+		}else if(cb_subcategory.getSelectedIndex()==0) {
+			JOptionPane.showMessageDialog(this, "하위 카테고리를 선택하셔야 합니다");
+		}else if(t_product_name.getText().length()<1) {
+			JOptionPane.showMessageDialog(this, "상품명을 입력하세요");
+		}else if(t_brand.getText().length()<1) {
+			JOptionPane.showMessageDialog(this, "브랜드를 입력하세요");
+		}else if(t_price.getText().length()<1) {
+			JOptionPane.showMessageDialog(this, "가격을 입력하세요");
+		}else if(t_discount.getText().length()<1) {
+			JOptionPane.showMessageDialog(this, "할인가를 입력하세요");
+		}else if(t_color.getMinSelectionIndex()<0 ) {
+			JOptionPane.showMessageDialog(this, "1개 이상의 색상을 선택하세요");
+		}else if(t_size.getMinSelectionIndex()<0 ) {
+			JOptionPane.showMessageDialog(this, "1개 이상의 사이즈를 선택하세요");
+		}else if(files.length<1 ) {
+			JOptionPane.showMessageDialog(this, "상품 이미지를 선택하세요");
+		}else if(t_introduce.getText().length() <1) {
+			JOptionPane.showMessageDialog(this, "상품 소개를 입력하세요");
+		}else if(t_detail.getText().length() <1) {
+			JOptionPane.showMessageDialog(this, "상세내용을 입력하세요");
+		}else {
+			upload();//업로드
+			
+			insert(); //mysql
+		}
 	}
 }
 
