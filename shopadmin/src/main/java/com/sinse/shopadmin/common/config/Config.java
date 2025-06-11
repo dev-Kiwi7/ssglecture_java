@@ -6,6 +6,9 @@ public class Config {
 	public static final String url="jdbc:mysql://localhost:3306/shop";
 	public static final String user="shop";
 	public static final String pass="1234";	
+	
+	public static final String PRODUCT_IMAGE_PATH="C:\\public";
+	
 	/*---------------------------------------------
 	페이지 정의 
 	---------------------------------------------*/
