@@ -8,6 +8,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.Vector;
@@ -18,6 +19,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -69,7 +71,8 @@ public class ProductPage extends Page{
 	
 	JFileChooser chooser;
 	Image[] imgArray; //유저가 선택한 파일로부터 생성된 이미지 배열
-	
+	File[] files;//파일 복사 즉 업로드를 진행하려면, 이미지가 아닌 파일을 대상으로 할 수 있다..
+					//FileInputStream, FileOuputStream의 대상은 File 이기 때문임...
 	
 	public ProductPage(AppMain appMain) {
 		super(appMain);
@@ -202,14 +205,29 @@ public class ProductPage extends Page{
 		
 		//파일 탐색기 띄우기 
 		bt_open.addActionListener(e->{
-			chooser.showOpenDialog(ProductPage.this);
 			
-			//유저가 선택한 파일에 대한 정보 얻기 
-			File[] files=chooser.getSelectedFiles();
+			int result=chooser.showOpenDialog(ProductPage.this);
+			
+			if(result==JFileChooser.APPROVE_OPTION)
+				preview();
+		});
+		
+		//등록 버튼과 리스너 연결 
+		bt_regist.addActionListener(e->{
+			regist();	
+		});
+	}
+	
+	public void preview() {
+		//유저가 선택한 파일에 대한 정보 얻기 
+		files=chooser.getSelectedFiles();
+		
+		if(files.length > 6) {
+			JOptionPane.showMessageDialog(this, "이미지는 최대 6개까지 가능합니다.");
+		}else {
 			imgArray = new Image[files.length];//유저가 선택한 파일의 수에 맞게 이미지배열 준비
 			
-			//파일을 파일일뿐, 이미지가 아니므로, 파일을 이용하여 이미지를 만들자!!!
-			
+			//파일은 파일 일뿐, 이미지가 아니므로, 파일을 이용하여 이미지를 만들자!!!
 			try {
 				for(int i=0;i<files.length;i++) {
 					BufferedImage buffrImg=ImageIO.read(files[i]);
@@ -218,10 +236,9 @@ public class ProductPage extends Page{
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
-			
 			//그림 다시 그리기 
 			p_preview.repaint();
-		});
+		}
 	}
 	
 	//DAO를 통해 얻어온 List를 이용하여 콤보박스 채우기 
@@ -238,7 +255,6 @@ public class ProductPage extends Page{
 			TopCategory topcategory=topList.get(i);
 			cb_topcategory.addItem(topcategory);
 		}
-		
 	}
 	
 	public void getSubCategory(TopCategory topCategory) {
@@ -252,8 +268,6 @@ public class ProductPage extends Page{
 		dummy.setSub_name("하위 카테고리를 선택하세요");
 		dummy.setSubcategory_id(0);
 		cb_subcategory.addItem(dummy);
-		
-		 
 		
 		//서브 카테고리 수만큼 반복하면서, 두번째 콤포박스에 SubCategory 모델을 채워넣기 
 		for(int i=0;i<subList.size();i++) {
@@ -270,6 +284,17 @@ public class ProductPage extends Page{
 		t_size.setListData(new Vector(sizeDAO.selectAll()));
 	}
 	
+	public void upload() {
+		//시각적 효과를 위해 각, 이미지의 업로드 진행율을 보여주자 , 새창으로...
+		UploadDialog dialog=new UploadDialog(this);
+	}
+	
+	//이미지 업로드 및 DB insert  
+	public void regist() {
+		upload();
+		
+		//insert~~~
+	}
 }
 
 

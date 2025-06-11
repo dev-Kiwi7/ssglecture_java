@@ -42,7 +42,7 @@ public class AppMain extends JFrame{
 	
 	
 	DBManager dbManager=DBManager.getInstance();
-	Connection con;
+	public Connection con;
 	
 	public Admin admin=new Admin(); //추후 제거될 예정
 	
