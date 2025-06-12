@@ -67,17 +67,14 @@ public class GUIServer extends JFrame implements Runnable{
 			server = new ServerSocket(Integer.parseInt(t_port.getText()));
 			area.append("서버 생성 및 접속자 청취 중...\n");
 			
-			Socket socket=server.accept();//여기서 대기 상태에 빠지므로, 우리는 쓰레드로 처리했음..
-			String ip=socket.getInetAddress().getHostAddress();
-			area.append(ip+" 접속\n");
-			
-			//접속과 동시에 스트림을 얻어놓아야 대화가 가능  
-			buffr=new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			buffw=new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-			
-			//서버는 끝없이, 듣고 말해야 한다..
 			while(true) {
-				listen();
+				Socket socket=server.accept();//여기서 대기 상태에 빠지므로, 우리는 쓰레드로 처리했음..
+				String ip=socket.getInetAddress().getHostAddress();
+				area.append(ip+" 접속\n");
+				
+				//접속자 1명당, 대화용 쓰레드인 ServerThread 인스턴스 만들면서 Socket을 선물로 주자!!
+				ServerThread st = new ServerThread(this, socket);
+				st.start();
 			}
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
@@ -86,28 +83,6 @@ public class GUIServer extends JFrame implements Runnable{
 		}
 	}
 	
-	//듣기 
-	public void listen() {
-		String msg=null;
-		
-		try {
-			msg=buffr.readLine();
-			area.append(msg+"\n");
-			send(msg);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	//말하기
-	public void send(String msg) {
-		try {
-			buffw.write(msg+"\n");
-			buffw.flush(); //출력스트림 중 버퍼처리된 것만..
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 	
 	public void run() {
 		startServer();
