@@ -8,7 +8,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.Vector;
@@ -27,9 +26,11 @@ import javax.swing.JTextField;
 
 import com.sinse.shopadmin.AppMain;
 import com.sinse.shopadmin.common.view.Page;
+import com.sinse.shopadmin.product.model.Product;
 import com.sinse.shopadmin.product.model.SubCategory;
 import com.sinse.shopadmin.product.model.TopCategory;
 import com.sinse.shopadmin.product.repository.ColorDAO;
+import com.sinse.shopadmin.product.repository.ProductDAO;
 import com.sinse.shopadmin.product.repository.SizeDAO;
 import com.sinse.shopadmin.product.repository.SubCategoryDAO;
 import com.sinse.shopadmin.product.repository.TopCategoryDAO;
@@ -68,6 +69,7 @@ public class ProductPage extends Page{
 	SubCategoryDAO subCategoryDAO;
 	ColorDAO colorDAO;
 	SizeDAO sizeDAO;
+	ProductDAO productDAO;
 	
 	JFileChooser chooser;
 	Image[] imgArray; //유저가 선택한 파일로부터 생성된 이미지 배열
@@ -124,6 +126,8 @@ public class ProductPage extends Page{
 		subCategoryDAO = new SubCategoryDAO();
 		colorDAO = new ColorDAO();
 		sizeDAO = new SizeDAO();
+		productDAO = new ProductDAO();
+		
 		chooser = new JFileChooser("C:/sinse_202504/front_workspace/images");
 		chooser.setMultiSelectionEnabled(true);//다중 선택 가능하도록 설정..
 		
@@ -291,8 +295,23 @@ public class ProductPage extends Page{
 	
 	//mysql 에 상품 등록관련 쿼리 수행 
 	public void insert() {
+		//ProductDAO 에게 일 시키기!!!
 		
+		//Product 모델 인스턴스 1개를 만들어, 안에다가
+		//상품 등록폼의 데이터를 채워넣자!!(setter)
+		Product product = new Product();
 		
+		product.setSubCategory((SubCategory)cb_subcategory.getSelectedItem()); // fk값??
+		product.setProduct_name(t_product_name.getText()); //상품명..
+		product.setBrand(t_brand.getText());
+		product.setPrice(Integer.parseInt(t_price.getText()));
+		product.setDiscount(Integer.parseInt(t_discount.getText()));
+		product.setIntroduce(t_introduce.getText());
+		product.setDetail(t_detail.getText());
+		
+		int result = productDAO.insert(product);
+		
+		System.out.println("등록 결과 "+result);		
 	}
 	
 	//이미지 업로드 및 DB insert  

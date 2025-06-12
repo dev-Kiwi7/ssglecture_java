@@ -48,7 +48,7 @@ public class EchoClient extends JFrame{
 	}
 	public void createIp() {
 		for(int i=15;i<=30;i++) {
-			box_ip.addItem("192.168.60"+i);
+			box_ip.addItem("192.168.60."+i);
 		}
 	}
 	public static void main(String[] args) {
