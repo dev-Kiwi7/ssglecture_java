@@ -28,11 +28,14 @@ import com.sinse.shopadmin.common.view.Page;
 import com.sinse.shopadmin.product.model.Color;
 import com.sinse.shopadmin.product.model.Product;
 import com.sinse.shopadmin.product.model.ProductColor;
+import com.sinse.shopadmin.product.model.ProductSize;
+import com.sinse.shopadmin.product.model.Size;
 import com.sinse.shopadmin.product.model.SubCategory;
 import com.sinse.shopadmin.product.model.TopCategory;
 import com.sinse.shopadmin.product.repository.ColorDAO;
 import com.sinse.shopadmin.product.repository.ProductColorDAO;
 import com.sinse.shopadmin.product.repository.ProductDAO;
+import com.sinse.shopadmin.product.repository.ProductSizeDAO;
 import com.sinse.shopadmin.product.repository.SizeDAO;
 import com.sinse.shopadmin.product.repository.SubCategoryDAO;
 import com.sinse.shopadmin.product.repository.TopCategoryDAO;
@@ -73,6 +76,7 @@ public class ProductPage extends Page{
 	SizeDAO sizeDAO;
 	ProductDAO productDAO;
 	ProductColorDAO productColorDAO;
+	ProductSizeDAO productSizeDAO;
 	
 	JFileChooser chooser;
 	Image[] imgArray; //유저가 선택한 파일로부터 생성된 이미지 배열
@@ -131,6 +135,7 @@ public class ProductPage extends Page{
 		sizeDAO = new SizeDAO();
 		productDAO = new ProductDAO();
 		productColorDAO = new ProductColorDAO();
+		productSizeDAO = new ProductSizeDAO();
 		
 		chooser = new JFileChooser("C:/sinse_202504/front_workspace/images");
 		chooser.setMultiSelectionEnabled(true);//다중 선택 가능하도록 설정..
@@ -331,6 +336,17 @@ public class ProductPage extends Page{
 			productColor.setColor(color); //어떤 색상을?
 			productColorDAO.insert(productColor);
 		}
+		
+		//상품에 딸려있는 사이즈를 등록 
+		List<Size> sizeList = t_size.getSelectedValuesList();
+		
+		for(Size size :sizeList) {
+			ProductSize productSize=new ProductSize(); //empty
+			productSize.setProduct(product); //1) 어떤 상품에..
+			productSize.setSize(size); //2) 어떤 사이즈를..
+			productSizeDAO.insert(productSize);
+		}
+		
 	}
 	
 	//이미지 업로드 및 DB insert  
