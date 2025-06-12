@@ -2,7 +2,13 @@ package com.sinse.networkapp.unicast;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -26,6 +32,8 @@ public class GUIClient extends JFrame implements Runnable{
 	Thread thread;//접속 지연시 실행부가 대기 상태에 빠질 수있으므로, 메인쓰레드로 시도하지말고,
 						//별도의 쓰레드로 진행...
 	Socket socket;
+	BufferedReader buffr;
+	BufferedWriter buffw;
 	
 	public GUIClient() {
 		p_north = new JPanel();
@@ -54,14 +62,51 @@ public class GUIClient extends JFrame implements Runnable{
 			thread.start();
 		});
 		
+		t_input.addKeyListener(new KeyAdapter() {
+			public void keyReleased(KeyEvent e) {
+				if(e.getKeyCode()==KeyEvent.VK_ENTER) {
+					//보내고
+					send();
+					t_input.setText("");//입력 초기화
+					
+					//듣자
+					listen();
+				}
+			}
+		});
+		
 		setBounds(2000, 100, 300,400);
 		setVisible(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	
+	//서버에 메시지 보내기
+	public void send() {
+		String msg=t_input.getText();
+		
+		try {
+			buffw.write(msg+"\n");
+			buffw.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void listen() {
+		String msg=null;
+		try {
+			msg=buffr.readLine();
+			area.append(msg+"\n");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void connectServer() {
 		try {
 			socket = new Socket((String)box_ip.getSelectedItem() , Integer.parseInt(t_port.getText()));
+			buffr=new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			buffw=new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 			
 		} catch (NumberFormatException e) {
 			e.printStackTrace();

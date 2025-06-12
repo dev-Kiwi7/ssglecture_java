@@ -4,13 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -28,8 +25,9 @@ public class GUIServer extends JFrame implements Runnable{
 	Thread thread; //서버 가동시, 메인 쓰레드가 accept()에서 대기 상태에 빠지지 않게 하기 위해
 	ServerSocket server;
 	
-	BufferedReader buffr; //듣기용 스트림
-	BufferedWriter buffw;//말하기용 스트림 
+	//사용자가 접속할때마다, 몇명이 현재 서버를 사용중인지, 
+	//그 기록을 처리할 객체 
+	Vector<ServerThread> vec=new Vector<>();
 	
 	public GUIServer() {
 		p_north = new JPanel();
@@ -75,6 +73,8 @@ public class GUIServer extends JFrame implements Runnable{
 				//접속자 1명당, 대화용 쓰레드인 ServerThread 인스턴스 만들면서 Socket을 선물로 주자!!
 				ServerThread st = new ServerThread(this, socket);
 				st.start();
+				vec.add(st); //접속자 추가!!!
+				area.append("현재 접속자 "+vec.size()+"명\n");
 			}
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
