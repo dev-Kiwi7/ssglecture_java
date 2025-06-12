@@ -28,6 +28,7 @@ import com.sinse.shopadmin.common.view.Page;
 import com.sinse.shopadmin.product.model.Color;
 import com.sinse.shopadmin.product.model.Product;
 import com.sinse.shopadmin.product.model.ProductColor;
+import com.sinse.shopadmin.product.model.ProductImg;
 import com.sinse.shopadmin.product.model.ProductSize;
 import com.sinse.shopadmin.product.model.Size;
 import com.sinse.shopadmin.product.model.SubCategory;
@@ -35,6 +36,7 @@ import com.sinse.shopadmin.product.model.TopCategory;
 import com.sinse.shopadmin.product.repository.ColorDAO;
 import com.sinse.shopadmin.product.repository.ProductColorDAO;
 import com.sinse.shopadmin.product.repository.ProductDAO;
+import com.sinse.shopadmin.product.repository.ProductImgDAO;
 import com.sinse.shopadmin.product.repository.ProductSizeDAO;
 import com.sinse.shopadmin.product.repository.SizeDAO;
 import com.sinse.shopadmin.product.repository.SubCategoryDAO;
@@ -77,11 +79,15 @@ public class ProductPage extends Page{
 	ProductDAO productDAO;
 	ProductColorDAO productColorDAO;
 	ProductSizeDAO productSizeDAO;
+	ProductImgDAO productImgDAO;
 	
 	JFileChooser chooser;
 	Image[] imgArray; //유저가 선택한 파일로부터 생성된 이미지 배열
 	File[] files;//파일 복사 즉 업로드를 진행하려면, 이미지가 아닌 파일을 대상으로 할 수 있다..
 					//FileInputStream, FileOuputStream의 대상은 File 이기 때문임...
+	
+	File[] newFiles; //업로드 다이얼로그에 의해 새롭게 생성된 즈 업로드된 파일들에 대한 정보 
+	
 	
 	public ProductPage(AppMain appMain) {
 		super(appMain);
@@ -136,6 +142,7 @@ public class ProductPage extends Page{
 		productDAO = new ProductDAO();
 		productColorDAO = new ProductColorDAO();
 		productSizeDAO = new ProductSizeDAO();
+		productImgDAO = new ProductImgDAO();
 		
 		chooser = new JFileChooser("C:/sinse_202504/front_workspace/images");
 		chooser.setMultiSelectionEnabled(true);//다중 선택 가능하도록 설정..
@@ -345,6 +352,15 @@ public class ProductPage extends Page{
 			productSize.setProduct(product); //1) 어떤 상품에..
 			productSize.setSize(size); //2) 어떤 사이즈를..
 			productSizeDAO.insert(productSize);
+		}
+		
+		//상품에 딸려있는 이미지 등록 
+		for(int i=0;i<newFiles.length;i++) {
+			File file=newFiles[i]; //업로드된 파일 객체를 꺼내보자
+			ProductImg productImg = new ProductImg();
+			productImg.setProduct(product); //1) 어떤 상품에.. 
+			productImg.setFilename(file.getName()); //2) 어떤 파일명으로..
+			productImgDAO.insert(productImg);
 		}
 		
 	}
