@@ -57,7 +57,7 @@ public class ProductDAO {
 	
 	//방금 수행한 insert 에 의해 증가된 pk의 최신값 얻기!!
 	//나의 세션 내에서 증가된 것만 가져오기!!!(select last_insert_id() 함수 )
-	//절대 max()는 사용하면 안됨...다른 유저계정에 의한 증가값도 반환해버리기 때문에...
+	//절대 max()는 사용하면 안됨...다른 유저계정에 의한 증가값도 반환해 버리기 때문에...
 	public int selectRecentPk() {
 		Connection con=null;
 		PreparedStatement pstmt=null;

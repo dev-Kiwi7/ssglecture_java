@@ -1,6 +1,5 @@
 package com.sinse.shopadmin.product.view;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -26,10 +25,13 @@ import javax.swing.JTextField;
 
 import com.sinse.shopadmin.AppMain;
 import com.sinse.shopadmin.common.view.Page;
+import com.sinse.shopadmin.product.model.Color;
 import com.sinse.shopadmin.product.model.Product;
+import com.sinse.shopadmin.product.model.ProductColor;
 import com.sinse.shopadmin.product.model.SubCategory;
 import com.sinse.shopadmin.product.model.TopCategory;
 import com.sinse.shopadmin.product.repository.ColorDAO;
+import com.sinse.shopadmin.product.repository.ProductColorDAO;
 import com.sinse.shopadmin.product.repository.ProductDAO;
 import com.sinse.shopadmin.product.repository.SizeDAO;
 import com.sinse.shopadmin.product.repository.SubCategoryDAO;
@@ -70,6 +72,7 @@ public class ProductPage extends Page{
 	ColorDAO colorDAO;
 	SizeDAO sizeDAO;
 	ProductDAO productDAO;
+	ProductColorDAO productColorDAO;
 	
 	JFileChooser chooser;
 	Image[] imgArray; //유저가 선택한 파일로부터 생성된 이미지 배열
@@ -78,7 +81,7 @@ public class ProductPage extends Page{
 	
 	public ProductPage(AppMain appMain) {
 		super(appMain);
-		setBackground(Color.CYAN);
+		setBackground(java.awt.Color.CYAN);
 		
 		//생성 
 		la_topcategory = new JLabel("최상위 카테고리");
@@ -127,6 +130,7 @@ public class ProductPage extends Page{
 		colorDAO = new ColorDAO();
 		sizeDAO = new SizeDAO();
 		productDAO = new ProductDAO();
+		productColorDAO = new ProductColorDAO();
 		
 		chooser = new JFileChooser("C:/sinse_202504/front_workspace/images");
 		chooser.setMultiSelectionEnabled(true);//다중 선택 가능하도록 설정..
@@ -311,7 +315,22 @@ public class ProductPage extends Page{
 		
 		int result = productDAO.insert(product);
 		
-		System.out.println("등록 결과 "+result);		
+		int product_id=productDAO.selectRecentPk();
+		product.setProduct_id(product_id);//구해온 최신 pk를 Product에 반영 
+		System.out.println("product_id "+product_id);	
+		
+		//상품에 딸려있는 색상들 등록하기 
+		List<Color> colorList=t_color.getSelectedValuesList();
+		
+		for(Color color : colorList) {
+			//System.out.println(color.getColor_name());
+			
+			//ProductColor 에 어떤 상품이, 어떤 색상을....
+			ProductColor productColor=new ProductColor();
+			productColor.setProduct(product); //어떤 상품이?
+			productColor.setColor(color); //어떤 색상을?
+			productColorDAO.insert(productColor);
+		}
 	}
 	
 	//이미지 업로드 및 DB insert  
