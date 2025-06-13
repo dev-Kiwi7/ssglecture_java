@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -12,6 +14,7 @@ import javax.swing.JPanel;
 import com.sinse.shop.common.config.Config;
 import com.sinse.shop.common.view.Page;
 import com.sinse.shop.home.MainPage;
+import com.sinse.shop.member.view.MemberJoin;
 
 public class AppMain extends JFrame{
 	JPanel p_north; //p_util, p_navi 공존시켜야 하므로..
@@ -84,6 +87,12 @@ public class AppMain extends JFrame{
 		//그 부착된 페이지 들 중, 보고싶은 페이지의 index를 넘기자
 		showPage(Config.MAIN_PAGE);
 		
+		la_join.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				showPage(Config.JOIN_PAGE);
+			}
+		});
+		
 		setDefaultCloseOperation(EXIT_ON_CLOSE); //db연동 후엔 지우기
 		setBounds(2000, 50, 1400, 900);
 		setVisible(true);
@@ -92,10 +101,11 @@ public class AppMain extends JFrame{
 	//쇼핑몰의 모든 페이지를 생성하여 부착!!
 	public void createPage() {
 		//배열 생성
-		pages=new Page[1]; //본인이 만든 페이지 수로 추후 대체...
+		pages=new Page[2]; //본인이 만든 페이지 수로 추후 대체...
 		
 		//페이지 생성 
-		pages[Config.MAIN_PAGE]=new MainPage();
+		pages[0]=new MainPage(this);
+		pages[1]=new MemberJoin(this);
 		
 		//모든 페이지를 대상으로 p_container에 부착!!
 		for(int i=0;i<pages.length;i++) {

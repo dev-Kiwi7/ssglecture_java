@@ -8,6 +8,7 @@ import java.awt.Image;
 
 import javax.swing.JPanel;
 
+import com.sinse.shop.AppMain;
 import com.sinse.shop.common.config.Config;
 import com.sinse.shop.common.util.ImageUtil;
 import com.sinse.shop.common.view.Page;
@@ -18,7 +19,8 @@ public class MainPage extends Page{
 	ImageUtil imageUtil=new ImageUtil();
 	Image image;
 	
-	public MainPage() {
+	public MainPage(AppMain appMain) {
+		super(appMain);
 		//생성
 		//패널을 이름없는 익명 클래스로 재정의하는 코드를 작성...장점? 별도의 .java파일을 생성할 필요
 		//없고, 내부 클래스이다 보니, 외부클래스인 MainPage의 멤버를 공유할 수 있다.
