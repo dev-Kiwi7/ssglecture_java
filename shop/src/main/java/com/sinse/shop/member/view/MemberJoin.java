@@ -79,7 +79,7 @@ public class MemberJoin extends Page{
 		try {
 			memberDAO.insert(member);
 			//이메일 전송
-			mailSender.send(member.getEmail(), "회원가입 축하드립니다", "저희 회원이 되어 주셔서 감사합니다");
+			mailSender.sendHtml(member.getEmail(), "회원가입 축하드립니다", "저희 회원이 되어 주셔서 감사합니다");
 			JOptionPane.showMessageDialog(this, "회원가입 완료");	
 		} catch (MemberException | EmailException e) {
 			JOptionPane.showMessageDialog(this, e.getMessage());
