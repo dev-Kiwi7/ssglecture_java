@@ -17,11 +17,12 @@ public class ProductListPage extends Page{
 	
 	JPanel p_content;
 	JButton bt_regist;
+	ProductModel productModel;
 	
 	public ProductListPage(AppMain appMain) {
 		super(appMain);
 		
-		table = new JTable();
+		table = new JTable(productModel= new ProductModel());
 		scroll = new JScrollPane(table);
 		scroll.setPreferredSize(new Dimension(Config.ADMINMAIN_WIDTH-Config.SIDE_WIDTH-100, 400));
 		

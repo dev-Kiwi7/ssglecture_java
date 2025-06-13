@@ -10,6 +10,8 @@ import java.util.List;
 import com.sinse.shopadmin.common.exception.ProductException;
 import com.sinse.shopadmin.common.util.DBManager;
 import com.sinse.shopadmin.product.model.Product;
+import com.sinse.shopadmin.product.model.SubCategory;
+import com.sinse.shopadmin.product.model.TopCategory;
 
 //Product 테이블에 대한 CRUD 만을 수행함 - 즉 데이터베이스 작업코드만 작성해야 함..
 public class ProductDAO {
@@ -98,13 +100,20 @@ public class ProductDAO {
 		Connection con=null;
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
-		List list=new ArrayList(); //만일 배열을 쓸 경우 rs는 전방향, 후방향 스크롤까지가능해야 함..
+		List<Product> list=new ArrayList(); //만일 배열을 쓸 경우 rs는 전방향, 후방향 스크롤까지가능해야 함..
 												//배열은 생성 시 크기를 먼저 지정해야 하므로..		
 		
 		con=dbManager.getConnetion();
 		StringBuffer sql=new StringBuffer();
+		/*
 		sql.append("select * from topcategory t, subcategory s, product p");
 		sql.append(" where t.topcategory_id=s.topcategory_id and");
+		sql.append(" s.subcategory_id=p.subcategory_id");
+		*/
+		sql.append("select t.topcategory_id,top_name, s.subcategory_id, sub_name ");
+		sql.append(",product_id, product_name, brand, price,discount,introduce,detail");
+		sql.append(" from topcategory t inner join subcategory s inner join product p");
+		sql.append(" on t.topcategory_id=s.topcategory_id and");
 		sql.append(" s.subcategory_id=p.subcategory_id");
 		
 		try {
@@ -121,17 +130,27 @@ public class ProductDAO {
 				product.setIntroduce(rs.getString("introduce"));
 				product.setDetail(rs.getString("detail"));
 				
-				//하위 카테고리와 
+				//하위 카테고리와
+				SubCategory subCategory=new SubCategory();
+				subCategory.setSubcategory_id(rs.getInt("s.subcategory_id"));
+				subCategory.setSub_name(rs.getString("sub_name"));
+				product.setSubCategory(subCategory);
 				
 				//상위 카테고리..
+				TopCategory topCategory = new TopCategory();
+				topCategory.setTopcategory_id(rs.getInt("t.topcategory_id"));
+				topCategory.setTop_name(rs.getString("top_name"));
+				subCategory.setTopcategory(topCategory);//서브가 탑을 참조해야 하므로, 보유
+				
+				list.add(product);
 			}
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			dbManager.release(pstmt, rs);
 		}
-		
-		
-		return null;
+		return list;
 	}
 	
 	
