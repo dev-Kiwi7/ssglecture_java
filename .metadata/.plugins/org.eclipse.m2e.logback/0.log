@@ -8105,3 +8105,13 @@ Caused by: org.codehaus.plexus.util.xml.pull.XmlPullParserException: expected ST
 2025-06-13 14:24:53,380 [Worker-46: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\lecture_workspace\backend\java_workspace\shop\src\test\resources
 2025-06-13 14:25:05,924 [Worker-56: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
 2025-06-13 14:25:05,926 [Worker-56: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\lecture_workspace\backend\java_workspace\shop\src\test\resources
+2025-06-13 14:35:22,070 [Worker-51: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2025-06-13 14:35:22,073 [Worker-51: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\lecture_workspace\backend\java_workspace\shop\src\test\resources
+2025-06-13 14:35:41,203 [Worker-52: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2025-06-13 14:35:41,205 [Worker-52: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\lecture_workspace\backend\java_workspace\shop\src\test\resources
+2025-06-13 14:38:24,795 [Worker-52: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2025-06-13 14:38:24,798 [Worker-52: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\lecture_workspace\backend\java_workspace\shop\src\test\resources
+2025-06-13 14:38:55,353 [Worker-55: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2025-06-13 14:38:55,355 [Worker-55: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\lecture_workspace\backend\java_workspace\shop\src\test\resources
+2025-06-13 14:38:56,986 [Worker-52: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2025-06-13 14:38:56,989 [Worker-52: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\lecture_workspace\backend\java_workspace\shop\src\test\resources

@@ -52,11 +52,17 @@ public class MemberJoin extends Page{
 		
 		add(p_container);
 		
+		bt.addActionListener(e->{
+			join();
+		});
+		
 		setBackground(Color.PINK);
 		setPreferredSize(new Dimension(Config.SHOPMAIN_WIDTH, Config.SHOPMAIN_HEIGHT- Config.NAVI_HEIGHT-Config.UTIL_HEIGHT));
 		setVisible(true);
 	}
-	
+	public void join() {
+		
+	}
 }	
 
 
