@@ -24,6 +24,7 @@ import com.sinse.shopadmin.main.view.MainPage;
 import com.sinse.shopadmin.member.view.MemberJoin;
 import com.sinse.shopadmin.member.view.MemberPage;
 import com.sinse.shopadmin.order.view.OrderPage;
+import com.sinse.shopadmin.product.view.ProductListPage;
 import com.sinse.shopadmin.product.view.ProductPage;
 import com.sinse.shopadmin.security.LoginForm;
 import com.sinse.shopadmin.security.model.Admin;
@@ -153,7 +154,7 @@ public class AppMain extends JFrame{
 	
 	//쇼핑몰에 사용할 모든 페이지 생성 및 부착 
 	public void createPage() {
-		pages = new Page[8];
+		pages = new Page[9];
 		
 		pages[0]=new LoginForm(this);
 		pages[1]=new MainPage(this);
@@ -163,6 +164,7 @@ public class AppMain extends JFrame{
 		pages[5]=new CustomerPage(this);
 		pages[6]=new ConfigPage(this);
 		pages[7]=new MemberJoin(this);
+		pages[8]=new ProductListPage(this);
 		
 		for(int i=0;i<pages.length;i++) {
 			p_container.add(pages[i]);

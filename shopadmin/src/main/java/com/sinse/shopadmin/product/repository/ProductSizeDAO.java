@@ -11,14 +11,14 @@ import com.sinse.shopadmin.product.model.ProductSize;
 public class ProductSizeDAO {
 	DBManager dbManager=DBManager.getInstance();
 	
-	public void insert(ProductSize productSize ) {
+	public void insert(ProductSize productSize ) throws ProductSizeException{
 		Connection con=null;
 		PreparedStatement pstmt=null;
 		
 		con=dbManager.getConnetion();
 		
 		StringBuffer sql=new StringBuffer();
-		sql.append("inser into product_size(product_id, size_id) values(?,?)");
+		sql.append("insert into product_size(product_id, size_id) values(?,?)");
 		
 		try {
 			pstmt=con.prepareStatement(sql.toString());
@@ -29,6 +29,7 @@ public class ProductSizeDAO {
 			if(result<1) {
 				throw new ProductSizeException("상품 사이즈 등록 실패");
 			}
+		
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

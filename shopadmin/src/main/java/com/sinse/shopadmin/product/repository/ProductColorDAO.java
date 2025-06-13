@@ -13,7 +13,7 @@ public class ProductColorDAO {
 	DBManager dbManager=DBManager.getInstance();
 	
 	//특정 상품에 딸려있는 색상들을 입력 예) 12번 상품이 지원하는 red, blue, yellow
-	public void insert(ProductColor productColor) {
+	public void insert(ProductColor productColor) throws ProductColorException{
 		Connection con=null;
 		PreparedStatement pstmt=null;
 		

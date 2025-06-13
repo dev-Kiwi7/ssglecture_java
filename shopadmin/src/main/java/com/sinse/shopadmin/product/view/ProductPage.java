@@ -26,6 +26,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import com.sinse.shopadmin.AppMain;
+import com.sinse.shopadmin.common.config.Config;
 import com.sinse.shopadmin.common.exception.ProductColorException;
 import com.sinse.shopadmin.common.exception.ProductException;
 import com.sinse.shopadmin.common.exception.ProductImgException;
@@ -245,6 +246,11 @@ public class ProductPage extends Page{
 		bt_regist.addActionListener(e->{
 			regist();	
 		});
+		
+		//목록 버튼 리스너 연결  
+		bt_list.addActionListener(e->{
+			appMain.showPage(Config.PRODUCT_LIST_PAGE);
+		});
 	}
 	
 	public void preview() {
@@ -380,15 +386,22 @@ public class ProductPage extends Page{
 			}
 			con.commit(); //에러가 없으니 확정짓자!!
 		}catch (ProductException | ProductColorException | ProductSizeException | ProductImgException e) {
+			JOptionPane.showMessageDialog(this, e.getMessage()); //유저를 위해 에러원인을 알려주자
+			
 			try {
 				con.rollback();
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
 			e.printStackTrace();//개발자를 위한 에러 로그 
-			JOptionPane.showMessageDialog(this, e.getMessage()); //유저를 위해 에러원인을 알려주자 
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			try {
+				con.setAutoCommit(true);//다시 되돌려 놓기 
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 	}

@@ -13,7 +13,7 @@ public class ProductImgDAO {
 	DBManager dbManager = DBManager.getInstance();
 	
 	//하나의 제품에 딸려있는 이미지 등록 
-	public void insert(ProductImg productImg) {
+	public void insert(ProductImg productImg) throws ProductImgException{
 		Connection con=null;
 		PreparedStatement pstmt=null;
 		

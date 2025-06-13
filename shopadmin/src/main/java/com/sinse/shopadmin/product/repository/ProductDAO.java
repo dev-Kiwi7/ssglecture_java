@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.sinse.shopadmin.common.exception.ProductException;
 import com.sinse.shopadmin.common.util.DBManager;
@@ -89,6 +91,49 @@ public class ProductDAO {
 		}
 		return pk;
 	}
+	
+	
+	//모든 상품 목록 가져오기 (상품+상위+하위)
+	public List selectAll() {
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		List list=new ArrayList(); //만일 배열을 쓸 경우 rs는 전방향, 후방향 스크롤까지가능해야 함..
+												//배열은 생성 시 크기를 먼저 지정해야 하므로..		
+		
+		con=dbManager.getConnetion();
+		StringBuffer sql=new StringBuffer();
+		sql.append("select * from topcategory t, subcategory s, product p");
+		sql.append(" where t.topcategory_id=s.topcategory_id and");
+		sql.append(" s.subcategory_id=p.subcategory_id");
+		
+		try {
+			pstmt=con.prepareStatement(sql.toString());
+			rs=pstmt.executeQuery(); //쿼리수행 및 표반환 
+			
+			while(rs.next()) {//레코드 수만큼 커서 이동하면서..
+				Product product = new Product(); 
+				product.setProduct_id(rs.getInt("product_id"));
+				product.setProduct_name(rs.getString("product_name"));
+				product.setBrand(rs.getString("brand"));
+				product.setPrice(rs.getInt("price"));
+				product.setDiscount(rs.getInt("discount"));
+				product.setIntroduce(rs.getString("introduce"));
+				product.setDetail(rs.getString("detail"));
+				
+				//하위 카테고리와 
+				
+				//상위 카테고리..
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return null;
+	}
+	
 	
 	
 }

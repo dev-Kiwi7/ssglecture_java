@@ -14,12 +14,13 @@ public class Config {
 	---------------------------------------------*/
 	public static final int LOGIN_PAGE=0;//로그인 페이지 
 	public static final int MAIN_PAGE=1; //페이지(통계)
-	public static final int PRODUCT_PAGE=2; //상품 관리 페이지
+	public static final int PRODUCT_PAGE=2; //상품 등록 페이지
 	public static final int ORDER_PAGE=3; //주문 관리 페이지
 	public static final int MEMBER_PAGE=4; //회원 관리 페이지
 	public static final int CUSTOMER_PAGE=5; //고객센터 관리 페이지
 	public static final int CONFIG_PAGE=6;
-	public static final int JOIN_PAGE=7; //관리자 가입 페이지 
+	public static final int JOIN_PAGE=7; //관리자 가입 페이지
+	public static final int PRODUCT_LIST_PAGE=8; //상품 목록 페이지
 	
 	
 	/*---------------------------------------------
