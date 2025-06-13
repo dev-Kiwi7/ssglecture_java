@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.sinse.shopadmin.common.exception.ProductException;
 import com.sinse.shopadmin.common.util.DBManager;
 import com.sinse.shopadmin.product.model.Product;
 
@@ -12,7 +13,7 @@ import com.sinse.shopadmin.product.model.Product;
 public class ProductDAO {
 	DBManager dbManager=DBManager.getInstance();
 	
-	public int insert(Product product) {
+	public void insert(Product product) throws ProductException{
 		//상품입력 폼의 값을 담고있는 Product 모델을 출력해보기 
 		System.out.println(product.getProduct_name());
 		System.out.println(product.getBrand());
@@ -45,14 +46,19 @@ public class ProductDAO {
 			pstmt.setInt(7, product.getSubCategory().getSubcategory_id());
 			
 			//쿼리수행 
-			result = pstmt.executeUpdate(); //DML 실행
-			
+			result = pstmt.executeUpdate(); //DML 실행 0
+			if(result==0) {
+				throw new ProductException("등록이 되지 않았어요");
+			}
 		} catch (SQLException e) {
+			//e.printStackTrace() 처리만해버리면, 바깥쪽 즉 유저가 사용하는 프로그램에서는 
+			//에러의 원인을 알수 없으므로, 신뢰성 떨어짐..따라서 에러가 발생하면, 이 영역에서만 처리를
+			//국한시키지 말고, 외부 영역까지ㅇ 에러원인을 전달해야 한다..
 			e.printStackTrace();
+			throw new ProductException("등록에 실패하였습니다.\n이용에 불편을 드려 죄송합니다", e);
 		}finally {
 			dbManager.release(pstmt);
 		}
-		return result;
 	}
 	
 	//방금 수행한 insert 에 의해 증가된 pk의 최신값 얻기!!
