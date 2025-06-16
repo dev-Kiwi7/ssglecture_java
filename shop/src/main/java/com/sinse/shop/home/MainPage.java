@@ -12,13 +12,16 @@ import com.sinse.shop.AppMain;
 import com.sinse.shop.common.config.Config;
 import com.sinse.shop.common.util.ImageUtil;
 import com.sinse.shop.common.view.Page;
+import com.sinse.shop.product.repository.ProductDAO;
+import com.sinse.shop.product.view.ProductItem;
 
 public class MainPage extends Page{
 	JPanel p_visual; //메인 비주얼 영역(메인 배너 영역 - carousel)
 	JPanel p_content;//상품이 출력될 영역 
 	ImageUtil imageUtil=new ImageUtil();
 	Image image;
-	
+	ProductDAO productDAO=new ProductDAO();
+		
 	public MainPage(AppMain appMain) {
 		super(appMain);
 		//생성
@@ -37,7 +40,7 @@ public class MainPage extends Page{
 			}
 		};
 		
-		p_content = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+		p_content = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 10));
 		
 		//스타일
 		p_visual.setPreferredSize(new Dimension(Config.MAIN_VISUAL_WIDTH, Config.MAIN_VISUAL_HEIGHT));
@@ -50,14 +53,36 @@ public class MainPage extends Page{
 		p_visual.setBackground(Color.CYAN);
 		p_content.setBackground(Color.RED);
 		
+		//최신 상품 생성하기
+		createRecentList();
 		
 		//조립 
 		add(p_visual);
 		add(p_content);
 		
 		setVisible(true);
+
+	}
+	
+	//최신 상품 패널 원하는 수만큼 p_content에 출력 
+	public void createRecentList() {
+		productDAO.selectRecentList(6);
+		
+		for(int i=0;i<6;i++) {
+			ProductItem productItem = new ProductItem();
+			p_content.add(productItem);
+		}
+		
 	}
 }
+
+
+
+
+
+
+
+
 
 
 

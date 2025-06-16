@@ -43,6 +43,7 @@
 	</section>
 	<section name="Maven2ProjectWizardArchifactPage">
 		<list key="package">
+			<item value="com.sinse.shoptest"/>
 			<item value="com.sinse.networkapp"/>
 			<item value="com.sinse.dbproject"/>
 			<item value="com.sinse.tablemodelapp"/>
@@ -51,6 +52,7 @@
 			<item value="com.sinse"/>
 		</list>
 		<list key="artifactId">
+			<item value="shoptest"/>
 			<item value="networkapp"/>
 			<item value="dbproject"/>
 			<item value="tablemodelapp"/>
