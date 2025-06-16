@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.sinse.shop.common.exception.ProductException;
 import com.sinse.shop.common.util.DBManager;
+import com.sinse.shop.product.model.Color;
 import com.sinse.shop.product.model.Product;
 import com.sinse.shop.product.model.Size;
 import com.sinse.shop.product.model.SubCategory;
@@ -225,9 +226,37 @@ public class ProductDAO {
 				product.setSizeList(sizeList);
 				
 				//이 상품이 보유한 색상들....(쿼리 수행  pstmt, rs)
+				sql.delete(0, sql.length());//스트링 버퍼의 문자열 비우기
 				
+				sql.append("select color_name");  
+				sql.append(" from product_color p inner join color c");  
+				sql.append(" on p.color_id =c.color_id");  
+				sql.append(" and p.product_id =?");  
+				
+				pstmt3=con.prepareStatement(sql.toString());
+				pstmt3.setInt(1, product.getProduct_id());
+				rs3=pstmt3.executeQuery();
+				
+				List colorList = new ArrayList();
+				while(rs3.next()) {
+					Color color =new Color();
+					color.setColor_name(rs3.getString("color_name"));
+					colorList.add(color);
+				}
+				product.setColorList(colorList);
 				
 				//이 상품이 보유한 이미지들...(쿼리 수행  pstmt, rs)
+				sql.delete(0, sql.length());
+				sql.append("select filename from product_img where product_id=?");
+				pstmt4=con.prepareStatement(sql.toString());
+				pstmt4.setInt(1, product.getProduct_id());
+				rs4=pstmt4.executeQuery();
+				
+				List filenameList = new ArrayList();
+				while(rs4.next()) {
+					filenameList.add(rs4.getString("filename"));
+				}
+				product.setFilenameList(filenameList);
 				
 				SubCategory subCategory=new SubCategory();
 				subCategory.setSubcategory_id(rs.getInt("s.subcategory_id"));
@@ -240,9 +269,13 @@ public class ProductDAO {
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally{
+			dbManager.release(pstmt, rs);
+			dbManager.release(pstmt2, rs2);
+			dbManager.release(pstmt3, rs3);
+			dbManager.release(pstmt4, rs4);
 		}
-		
-		return null;
+		return list;
 	}
 	
 	

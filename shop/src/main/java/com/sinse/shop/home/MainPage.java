@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.util.List;
 
 import javax.swing.JPanel;
 
@@ -12,6 +13,7 @@ import com.sinse.shop.AppMain;
 import com.sinse.shop.common.config.Config;
 import com.sinse.shop.common.util.ImageUtil;
 import com.sinse.shop.common.view.Page;
+import com.sinse.shop.product.model.Product;
 import com.sinse.shop.product.repository.ProductDAO;
 import com.sinse.shop.product.view.ProductItem;
 
@@ -66,10 +68,17 @@ public class MainPage extends Page{
 	
 	//최신 상품 패널 원하는 수만큼 p_content에 출력 
 	public void createRecentList() {
-		productDAO.selectRecentList(6);
+		List<Product> productList=productDAO.selectRecentList(2);
 		
-		for(int i=0;i<6;i++) {
-			ProductItem productItem = new ProductItem();
+		for(int i=0;i<productList.size();i++) {
+			Product product = productList.get(i); //리스트에서 상품을 하나씩 꺼내자!!
+			
+			for(int a=0;a<product.getFilenameList().size();a++) {
+				System.out.println(i+"번째 "+product.getFilenameList().get(a));
+			}
+			
+			ProductItem productItem = new ProductItem(product);//상품 하나를 표현하는 디자인 카드
+			
 			p_content.add(productItem);
 		}
 		
