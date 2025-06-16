@@ -10,6 +10,7 @@ import java.util.List;
 import com.sinse.shop.common.exception.ProductException;
 import com.sinse.shop.common.util.DBManager;
 import com.sinse.shop.product.model.Product;
+import com.sinse.shop.product.model.Size;
 import com.sinse.shop.product.model.SubCategory;
 import com.sinse.shop.product.model.TopCategory;
 
@@ -158,8 +159,19 @@ public class ProductDAO {
 	//원하는 수 만큼의 최신 상품 가져오기 
 	public List selectRecentList(int limit) {
 		Connection con=null;
+
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
+
+		PreparedStatement pstmt2=null; //size
+		ResultSet rs2=null;
+		
+		PreparedStatement pstmt3=null; //color
+		ResultSet rs3=null;
+		
+		PreparedStatement pstmt4=null;//filename
+		ResultSet rs4=null;
+		
 		List<Product> list =new ArrayList();
 		
 		con=dbManager.getConnetion();
@@ -182,8 +194,48 @@ public class ProductDAO {
 			
 			while(rs.next()) {//상품의 수만큼...
 				Product product = new Product(); //empty 상태 
+				product.setProduct_id(rs.getInt("product_id"));
+				product.setProduct_name(rs.getString("product_name"));
+				product.setBrand(rs.getString("brand"));
+				product.setPrice(rs.getInt("price"));
+				product.setDiscount(rs.getInt("discount"));
+				product.setIntroduce(rs.getString("introduce"));
+				product.setDetail(rs.getString("detail"));
+				
+				//이 상품이 보유한 사이즈들...(쿼리 수행 pstmt, rs)
+				sql.delete(0, sql.length());//스트링 버퍼의 문자열 비우기
+				
+				sql.append(" select size_name");
+				sql.append(" from product_size p inner join size s");
+				sql.append(" on p.size_id  = s.size_id");
+				sql.append(" and p.product_id=?");
+				
+				pstmt2=con.prepareStatement(sql.toString());
+				pstmt2.setInt(1, product.getProduct_id());
+				rs2=pstmt2.executeQuery();
+				
+				//사이즈들을 Product 모델의 List에 담기!!!
+				List sizeList=new ArrayList();
+				
+				while(rs2.next()) {
+					Size size = new Size();
+					size.setSize_name(rs2.getString("size_name"));
+					sizeList.add(size);
+				}
+				product.setSizeList(sizeList);
+				
+				//이 상품이 보유한 색상들....(쿼리 수행  pstmt, rs)
 				
 				
+				//이 상품이 보유한 이미지들...(쿼리 수행  pstmt, rs)
+				
+				SubCategory subCategory=new SubCategory();
+				subCategory.setSubcategory_id(rs.getInt("s.subcategory_id"));
+				subCategory.setSub_name(rs.getString("sub_name"));
+				
+				product.setSubCategory(subCategory); //서브 카테고리 모델을 Product모델에 대입 
+				
+				list.add(product);
 			}
 			
 		} catch (SQLException e) {

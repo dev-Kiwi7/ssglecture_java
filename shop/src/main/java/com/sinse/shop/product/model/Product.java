@@ -46,6 +46,24 @@ public class Product {
 	public void setDiscount(int discount) {
 		this.discount = discount;
 	}
+	public List<Size> getSizeList() {
+		return sizeList;
+	}
+	public void setSizeList(List<Size> sizeList) {
+		this.sizeList = sizeList;
+	}
+	public List<Color> getColorList() {
+		return colorList;
+	}
+	public void setColorList(List<Color> colorList) {
+		this.colorList = colorList;
+	}
+	public List<String> getFilenameList() {
+		return filenameList;
+	}
+	public void setFilenameList(List<String> filenameList) {
+		this.filenameList = filenameList;
+	}
 	public String getIntroduce() {
 		return introduce;
 	}
@@ -65,6 +83,7 @@ public class Product {
 		this.subCategory = subCategory;
 	}
 
+	
 	
 }
 
