@@ -48,7 +48,10 @@ public class ServerChatThread extends Thread{
 			}
 			
 		} catch (IOException e) {
-			e.printStackTrace();
+			guiServer.vec.remove(this); //상대방 클라인트가 나가버리면(즉 소켓을 끊어버리면) 
+													//나는 더이상 접속자 명단에 들어있으면 안되므로, 나를 제거하자
+			guiServer.area.append("현재 접속자 "+guiServer.vec.size()+"\n");
+			//e.printStackTrace();
 		}
 	}
 	

@@ -28,10 +28,8 @@ public class Client extends JFrame implements Runnable{
 	JTextArea area;
 	JScrollPane scroll;
 	JTextField t_input;
-	Thread thread;
-	Socket socket;
-	BufferedReader buffr;
-	BufferedWriter buffw;
+	Thread thread; //접속 쓰레드 !!
+	ClientChatThread chatThread; //채팅용 쓰레드
 	
 	public Client() {
 		p_north = new JPanel();
@@ -64,8 +62,7 @@ public class Client extends JFrame implements Runnable{
 		t_input.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
 				if(e.getKeyCode()==KeyEvent.VK_ENTER) {
-					send(); // 보내고 
-					listen(); //듣고
+					chatThread.send(t_input.getText()); // 보내고 
 				}
 			}
 		});
@@ -74,36 +71,18 @@ public class Client extends JFrame implements Runnable{
 		setVisible(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
-	
-	public void send() {		
-		try {
-			buffw.write(t_input.getText()+"\n");
-			buffw.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void listen() {
-		String msg=null;
-		try {
-			msg=buffr.readLine();
-			area.append(msg+"\n");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
+
 	//접속이란, 서버의 ip와 포트번호를 이용하여 소켓을 생성하는 것!!
 	public void connectServer() {
 		String ip=(String)box_ip.getSelectedItem();
 		int port=Integer.parseInt(t_port.getText());
 		
 		try {
-			socket = new Socket( ip, port);
-			buffr=new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			buffw=new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+			Socket socket = new Socket( ip, port);
 			
+			//접속 이후부터는  채팅은 쓰레드가 담당하므로, 소켓을 쓰레드에게 전달해주자 
+			chatThread = new ClientChatThread(this, socket);
+			chatThread.start();
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
