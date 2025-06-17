@@ -15,6 +15,7 @@ import com.sinse.shop.common.config.Config;
 import com.sinse.shop.common.view.Page;
 import com.sinse.shop.home.MainPage;
 import com.sinse.shop.member.view.MemberJoin;
+import com.sinse.shop.product.view.ProductDetailPage;
 
 public class AppMain extends JFrame{
 	JPanel p_north; //p_util, p_navi 공존시켜야 하므로..
@@ -101,11 +102,12 @@ public class AppMain extends JFrame{
 	//쇼핑몰의 모든 페이지를 생성하여 부착!!
 	public void createPage() {
 		//배열 생성
-		pages=new Page[2]; //본인이 만든 페이지 수로 추후 대체...
+		pages=new Page[3]; //본인이 만든 페이지 수로 추후 대체...
 		
 		//페이지 생성 
 		pages[0]=new MainPage(this);
 		pages[1]=new MemberJoin(this);
+		pages[2]=new ProductDetailPage(this);
 		
 		//모든 페이지를 대상으로 p_container에 부착!!
 		for(int i=0;i<pages.length;i++) {

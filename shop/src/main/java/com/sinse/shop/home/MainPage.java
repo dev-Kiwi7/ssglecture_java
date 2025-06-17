@@ -77,7 +77,7 @@ public class MainPage extends Page{
 				System.out.println(i+"번째 "+product.getFilenameList().get(a));
 			}
 			
-			ProductItem productItem = new ProductItem(product);//상품 하나를 표현하는 디자인 카드
+			ProductItem productItem = new ProductItem(this,product);//상품 하나를 표현하는 디자인 카드
 			
 			p_content.add(productItem);
 		}
