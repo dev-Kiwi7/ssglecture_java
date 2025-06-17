@@ -36,7 +36,7 @@ public class AppMain extends JFrame{
 	JLabel la_best;
 	JLabel la_cs;
 	
-	Page[] pages;
+	public Page[] pages;
 	
 	public AppMain() {
 		//생성 
