@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="javax.swing.border.TitledBorder"/>
-    <fullyQualifiedTypeName name="java.io.FileOutputStream"/>
-    <fullyQualifiedTypeName name="com.sinse.shopadmin.common.util.FileUtil"/>
-    <fullyQualifiedTypeName name="test.StreamStudy"/>
     <fullyQualifiedTypeName name="java.io.FileInputStream"/>
     <fullyQualifiedTypeName name="java.net.ServerSocket"/>
     <fullyQualifiedTypeName name="test.Test"/>
@@ -22,11 +18,8 @@
     <fullyQualifiedTypeName name="com.sinse.shopadmin.product.model.Product"/>
     <fullyQualifiedTypeName name="com.sinse.shopadmin.product.repository.ProductDAO"/>
     <fullyQualifiedTypeName name="com.sinse.shopadmin.product.view.ProductModel"/>
-    <fullyQualifiedTypeName name="java.awt.event.MouseAdapter"/>
-    <fullyQualifiedTypeName name="com.sinse.shop.common.config.Config"/>
     <fullyQualifiedTypeName name="javax.swing.JTextField"/>
     <fullyQualifiedTypeName name="javax.swing.JButton"/>
-    <fullyQualifiedTypeName name="javax.swing.JPanel"/>
     <fullyQualifiedTypeName name="javax.swing.plaf.DimensionUIResource"/>
     <fullyQualifiedTypeName name="javax.swing.JPasswordField"/>
     <fullyQualifiedTypeName name="com.sinse.shop.member.repository.MemberDAO"/>
@@ -40,9 +33,6 @@
     <fullyQualifiedTypeName name="com.sinse.shop.common.exception.EmailException"/>
     <fullyQualifiedTypeName name="com.sinse.shop.common.util.MailSender"/>
     <fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
-    <fullyQualifiedTypeName name="java.io.InputStreamReader"/>
-    <fullyQualifiedTypeName name="java.awt.Dimension"/>
-    <fullyQualifiedTypeName name="java.awt.Color"/>
     <fullyQualifiedTypeName name="com.sinse.shop.product.view.ProductItem"/>
     <fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
     <fullyQualifiedTypeName name="java.lang.StringBuffer"/>
@@ -50,14 +40,24 @@
     <fullyQualifiedTypeName name="com.sinse.shop.product.model.SubCategory"/>
     <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="com.sinse.shop.product.model.Color"/>
-    <fullyQualifiedTypeName name="javax.imageio.ImageIO"/>
-    <fullyQualifiedTypeName name="java.io.File"/>
     <fullyQualifiedTypeName name="java.awt.Font"/>
     <fullyQualifiedTypeName name="java.text.NumberFormat"/>
     <fullyQualifiedTypeName name="com.sinse.shop.common.util.StringUtil"/>
     <fullyQualifiedTypeName name="java.net.Socket"/>
     <fullyQualifiedTypeName name="com.sinse.networkapp.multicast.ServerChatThread"/>
-    <fullyQualifiedTypeName name="java.io.BufferedReader"/>
     <fullyQualifiedTypeName name="java.awt.event.KeyAdapter"/>
+    <fullyQualifiedTypeName name="java.awt.event.MouseAdapter"/>
+    <fullyQualifiedTypeName name="java.awt.Color"/>
+    <fullyQualifiedTypeName name="com.sinse.shop.product.view.ProductDetailPage"/>
+    <fullyQualifiedTypeName name="com.sinse.shop.common.config.Config"/>
+    <fullyQualifiedTypeName name="javax.swing.JPanel"/>
+    <fullyQualifiedTypeName name="java.awt.Dimension"/>
+    <fullyQualifiedTypeName name="javax.imageio.ImageIO"/>
+    <fullyQualifiedTypeName name="java.io.File"/>
+    <fullyQualifiedTypeName name="com.sinse.networkapp.unicast.ServerThread"/>
+    <fullyQualifiedTypeName name="java.io.BufferedReader"/>
+    <fullyQualifiedTypeName name="java.io.InputStreamReader"/>
     <fullyQualifiedTypeName name="java.io.BufferedWriter"/>
+    <fullyQualifiedTypeName name="java.io.OutputStreamWriter"/>
+    <fullyQualifiedTypeName name="com.sinse.networkapp.multicast.ClientChatThread"/>
 </qualifiedTypeNameHistroy>

@@ -9410,3 +9410,5 @@ Caused by: org.codehaus.plexus.util.xml.pull.XmlPullParserException: expected > 
 2025-06-17 11:39:40,375 [Worker-27: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\lecture_workspace\backend\java_workspace\networkapp\src\test\resources
 2025-06-17 11:39:44,631 [Worker-36: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\lecture_workspace\backend\java_workspace\networkapp\src\main\resources
 2025-06-17 11:39:44,632 [Worker-36: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\lecture_workspace\backend\java_workspace\networkapp\src\test\resources
+2025-06-17 11:40:44,297 [Worker-34: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\lecture_workspace\backend\java_workspace\networkapp\src\main\resources
+2025-06-17 11:40:44,300 [Worker-34: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\lecture_workspace\backend\java_workspace\networkapp\src\test\resources
