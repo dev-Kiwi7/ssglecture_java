@@ -23,6 +23,10 @@ public class MainPage extends Page{
 	ImageUtil imageUtil=new ImageUtil();
 	Image image;
 	ProductDAO productDAO=new ProductDAO();
+	
+	//최신 상품 목록 중 유저가 지금 선택한 바로 그 상품!!!
+	public Product product;
+	 
 		
 	public MainPage(AppMain appMain) {
 		super(appMain);

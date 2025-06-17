@@ -38,6 +38,10 @@ public class ProductItem extends JPanel{
 		//마우스 리스너 연결
 		addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
+				//어떤 상품을 선택했는지 그 정보를 보관
+				mainPage.product=product;
+				
+				//페이지 전환
 				mainPage.appMain.showPage(Config.PRODUCT_DETAIL_PAGE);
 			}
 		});
