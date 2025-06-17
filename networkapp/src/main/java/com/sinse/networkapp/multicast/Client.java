@@ -64,7 +64,8 @@ public class Client extends JFrame implements Runnable{
 		t_input.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
 				if(e.getKeyCode()==KeyEvent.VK_ENTER) {
-					send();
+					send(); // 보내고 
+					listen(); //듣고
 				}
 			}
 		});
@@ -74,15 +75,23 @@ public class Client extends JFrame implements Runnable{
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	
-	public void send() {
-		
+	public void send() {		
 		try {
 			buffw.write(t_input.getText()+"\n");
 			buffw.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+	}
+	
+	public void listen() {
+		String msg=null;
+		try {
+			msg=buffr.readLine();
+			area.append(msg+"\n");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	//접속이란, 서버의 ip와 포트번호를 이용하여 소켓을 생성하는 것!!

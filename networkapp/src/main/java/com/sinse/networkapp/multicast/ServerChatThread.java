@@ -41,7 +41,12 @@ public class ServerChatThread extends Thread{
 			msg=buffr.readLine(); //클라이언트가 전송한 메시지 청취
 			guiServer.area.append(msg+"\n");
 			
-			send(msg); 
+			//서버에 접속한 모든 유저와 1:1 대응하는 ServerChatThread 수만큼 반복하면서 메시지를 보내자
+			for(int i=0;i<guiServer.vec.size();i++) {
+				ServerChatThread st=guiServer.vec.get(i);
+				st.send(msg);
+			}
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
